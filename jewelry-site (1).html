@@ -567,11 +567,65 @@ input[type="text"], input:not([type]) { background: var(--surface-2); color: var
 input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--muted); }
 .header-search input { background: transparent; }
 
+/* make dropped-in <img> fill every placeholder container */
+.rec-item-bg img, .pg-thumb img, .cat-img img, .blog-img img,
+.gallery-main img, .g-thumb img, .cart-img img, .emoji-placeholder + img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
 /* hero eyebrow accent */
 .hero-eyebrow { color: var(--gold); }
 </style>
 </head>
 <body>
+<!-- ============================================================
+     🖼  HOW TO ADD YOUR OWN IMAGES
+     ------------------------------------------------------------
+     Every picture spot below currently shows an EMOJI inside a
+     styled box. The CSS already sizes any <img> to fill the box
+     (object-fit: cover), so you only swap the emoji for an <img>.
+     Put your files in an /images folder next to this HTML, or use
+     a full URL (https://...). Snippets per section:
+
+     • PRODUCT CARD  (Featured / Best-sellers / Collection grid)
+         FIND:     <div class="emoji-placeholder">💛</div>
+         REPLACE:  <img src="images/necklace1.jpg" alt="Necklace">
+
+     • CATEGORY circle  (top of home page)
+         FIND:     <div class="cat-img">👂</div>
+         REPLACE:  <div class="cat-img"><img src="images/earrings.jpg" alt="Earrings"></div>
+
+     • SHOP-BY-RECIPIENT tile
+         FIND:     <div class="rec-item-bg" style="...">💃</div>
+         REPLACE:  <div class="rec-item-bg"><img src="images/for-her.jpg" alt="Gifts for Her"></div>
+
+     • HERO SLIDE  (big banner) — easiest is a background image:
+         FIND:     <div class="hero-slide" style="background:linear-gradient(...);">
+         REPLACE:  <div class="hero-slide" style="background:url('images/hero1.jpg') center/cover;">
+
+     • BLOG card
+         FIND:     <div class="blog-img" style="...">📖</div>
+         REPLACE:  <div class="blog-img"><img src="images/blog1.jpg" alt=""></div>
+
+     • BRAND BANNER (dark strip)  — image sits at 60% opacity:
+         Inside <div class="brand-banner-bg" ...>  add:
+                   <img src="images/banner.jpg" alt="">
+
+     • PRODUCT PAGE gallery
+         MAIN:  <div class="gallery-main" id="mainImg"><img src="images/main.jpg" alt=""></div>
+         THUMB: <div class="g-thumb" onclick="switchThumb(this,'💎')"><img src="images/2.jpg" alt=""></div>
+                (thumbs still swap to the emoji on click — to swap to
+                 images instead, edit the switchThumb() function.)
+
+     • CART line-item
+         FIND:     <div class="cart-img" style="font-size:2.5rem;">💛</div>
+         REPLACE:  <div class="cart-img"><img src="images/item1.jpg" alt=""></div>
+
+     • FLIP-BOOK collection page
+         FIND:     <div class="pg-thumb" style="...">💼</div>
+         REPLACE:  <div class="pg-thumb"><img src="images/office.jpg" alt=""></div>
+
+     Look for the "👉 ADD IMAGE HERE" markers below for a live example
+     of each type.
+     ============================================================ -->
 
 <!-- ============================================
      SHARED: ANNOUNCEMENT BAR
@@ -658,6 +712,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
   <section class="hero">
     <div class="hero-track" id="heroTrack">
 
+      <!-- 👉 ADD IMAGE HERE (hero): change the background to  background:url('images/hero1.jpg') center/cover; -->
       <div class="hero-slide" style="background: linear-gradient(135deg,#0E2620 0%,#081611 100%);">
         <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:5%;background:linear-gradient(135deg,#10291F,#081611);">
           <div style="position:absolute;left:80px;top:50%;transform:translateY(-50%);z-index:2;max-width:500px;">
@@ -738,6 +793,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
   <section class="cat-section">
     <p class="cat-label">Everyday Demifine® Collection</p>
     <div class="cat-grid">
+      <!-- 👉 ADD IMAGE HERE (category): <div class="cat-img"><img src="images/earrings.jpg" alt="Earrings"></div> -->
       <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">👂</div><span class="cat-name">Earrings</span></div>
       <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">📿</div><span class="cat-name">Necklaces</span></div>
       <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">⌚</div><span class="cat-name">Bracelets</span></div>
@@ -764,6 +820,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
       <div class="prod-grid">
         <!-- Card 1 -->
         <div class="prod-card" onclick="goTo('product')">
+          <!-- 👉 ADD IMAGE HERE (product): swap the emoji-placeholder div below for  <img src="images/necklace.jpg" alt="Necklace"> -->
           <div class="prod-img-wrap"><div class="emoji-placeholder">💛</div><div class="prod-badges"><span class="flat-tag">Flat ₹999</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
           <div class="prod-info"><div class="prod-name">Hearts All Over Bracelet</div><div class="prod-pricing"><span class="prod-price">₹999</span><span class="prod-compare">₹3,184</span><span class="prod-off">Flat 69% off MRP</span></div><div class="prod-colors"><span class="color-dot" style="background:#C8A951"></span><span class="color-dot" style="background:#C0C0C0"></span></div></div>
         </div>
@@ -873,6 +930,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
     <h2 class="recipient-title">Shop By Recipient</h2>
     <div class="recipient-grid">
       <div class="rec-item" onclick="goTo('collection')">
+        <!-- 👉 ADD IMAGE HERE (recipient): <div class="rec-item-bg"><img src="images/for-her.jpg" alt="Gifts for Her"></div> -->
         <div class="rec-item-bg" style="background:linear-gradient(135deg,#1B332B,#0B1F1A);">💃</div>
         <div class="rec-bottom"><div><p class="rec-label">Gifts For <strong>Her</strong></p></div><div class="rec-arrow">→</div></div>
       </div>
@@ -934,6 +992,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
             <div class="face front">
               <button class="pg-paper pg-collection" onclick="event.stopPropagation(); goTo('collection')">
                 <span class="pg-num">01</span>
+                <!-- 👉 ADD IMAGE HERE (book collection): <div class="pg-thumb"><img src="images/office.jpg" alt=""></div> -->
                 <div class="pg-thumb" style="background:linear-gradient(170deg,#E8D5C4,#C4A882);">💼</div>
                 <h4 class="pg-coll-name">Office Wear</h4>
                 <p class="pg-coll-copy">Quiet luxury for the boardroom — subtle studs and sleek chains that mean business.</p>
@@ -1036,6 +1095,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
 
   <!-- BRAND BANNER -->
   <div class="brand-banner">
+    <!-- 👉 ADD IMAGE HERE (brand banner): put  <img src="images/banner.jpg" alt="">  inside this div (shows at 60% opacity) -->
     <div class="brand-banner-bg" style="background:linear-gradient(135deg,#0C2A24,#06120F);font-size:0;">
     </div>
     <div class="brand-banner-overlay">
@@ -1049,6 +1109,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
   <section class="blogs">
     <h2 class="section-title">From Our Journal</h2>
     <div class="blog-grid">
+      <!-- 👉 ADD IMAGE HERE (blog): <div class="blog-img"><img src="images/blog1.jpg" alt=""></div> -->
       <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#2A1D14,#0E0B09);">📖</div><div class="blog-info"><div class="blog-date">Jun 12, 2024</div><h4 class="blog-title">How to Style Mangalsutra with Modern Outfits</h4></div></div>
       <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#16281B,#0A140E);">💡</div><div class="blog-info"><div class="blog-date">May 28, 2024</div><h4 class="blog-title">The Complete Guide to Jewellery Care at Home</h4></div></div>
       <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#2A1620,#120A10);">👑</div><div class="blog-info"><div class="blog-date">May 15, 2024</div><h4 class="blog-title">Bridal Jewellery Trends You'll Love in 2024</h4></div></div>
@@ -1111,6 +1172,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
 
     <!-- Gallery -->
     <div class="gallery">
+      <!-- 👉 ADD IMAGE HERE (product-page main): <div class="gallery-main" id="mainImg"><img src="images/main.jpg" alt=""></div> -->
       <div class="gallery-main" id="mainImg"><div style="font-size:8rem;display:flex;align-items:center;justify-content:center;width:100%;height:100%;">💛</div></div>
       <div class="gallery-thumbs">
         <div class="g-thumb on" onclick="switchThumb(this,'💛')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#15251F;">💛</div></div>
@@ -1264,6 +1326,7 @@ input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--m
 
     <div class="cart-items">
       <div class="cart-item">
+        <!-- 👉 ADD IMAGE HERE (cart): <div class="cart-img"><img src="images/item1.jpg" alt=""></div> -->
         <div class="cart-img" style="font-size:2.5rem;">💛</div>
         <div>
           <div class="cart-item-name">Hearts All Over Bracelet</div>
