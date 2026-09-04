@@ -14,23 +14,29 @@
    ============================================ */
 
 :root {
-  --white: #FFFFFF;
-  --bg: #FAFAFA;
-  --black: #1A1A1A;
-  --text: #2D2D2D;
-  --muted: #888888;
-  --border: #E5E5E5;
-  --gold: #C8A951;
-  --gold-dark: #A08735;
-  --red: #D94F3D;
-  --green: #2E7D32;
+  --white: #12271F;          /* surface: cards, header, nav, panels */
+  --bg: #0A1C17;             /* page background — deep emerald */
+  --bg-alt: #06110E;         /* deepest green — footer, banners, bars */
+  --surface-2: #1A342B;      /* lifted surface / hovers / placeholders */
+  --black: #F3EFE4;          /* light ink — headings & text on dark */
+  --text: #D9D4C7;           /* body text (cream) */
+  --muted: #93A79D;          /* muted sage */
+  --border: rgba(240,236,224,.12);
+  --gold: #C56A4C;           /* rust / terracotta accent */
+  --gold-dark: #A5513A;
+  --accent: #C56A4C;
+  --accent-d: #A5513A;
+  --red: #E0614E;
+  --green: #56B583;
+  --ink: #241E17;            /* dark ink for cream book-page island */
+  --ink-muted: #7E7365;
   --font-d: 'Playfair Display', Georgia, serif;
   --font-b: 'DM Sans', system-ui, sans-serif;
   --r-pill: 50px;
   --r-card: 8px;
   --r-sm: 4px;
-  --shadow: 0 2px 12px rgba(0,0,0,.06);
-  --shadow-h: 0 8px 28px rgba(0,0,0,.12);
+  --shadow: 0 2px 14px rgba(0,0,0,.45);
+  --shadow-h: 0 12px 34px rgba(0,0,0,.55);
   --ease: .25s ease;
 }
 
@@ -495,6 +501,74 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
   .footer-bottom { flex-direction: column; text-align: center; }
   .cart-item { grid-template-columns: 80px 1fr; }
 }
+
+/* ============================================================
+   DARK EMERALD THEME — override layer (kept last so it wins)
+   ============================================================ */
+
+/* light text on dark chrome (previously used white as light text) */
+.ann-item, .hero-content, .hero-prev, .hero-next,
+.brand-banner-overlay, .f-logo, .f-col-title, .f-app-btn { color: #F6F2E8; }
+.f-links a:hover { color: #F6F2E8; }
+.hero-dot.on { background: #F6F2E8; }
+.flat-tag, .badge-count { color: #FFFFFF; }
+
+/* deep-green background regions */
+.ann-bar, .site-footer, .brand-banner { background: var(--bg-alt); }
+
+/* rust accent primaries + active states */
+.btn-black, .btn-gold { background: var(--accent); color: #FFFFFF; border-color: var(--accent); }
+.btn-black:hover, .btn-gold:hover { background: var(--accent-d); color:#FFFFFF; }
+.btn-outline { color: var(--black); border-color: var(--black); }
+.btn-outline:hover { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+.btn-white { background: #F3EFE3; color: #142019; }
+.btn-white:hover { background: #FFFFFF; }
+.tab-btn.on, .filter-chip.on, .v-opt.on { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+.rec-item:hover .rec-arrow { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+.add-btn { background: var(--accent); color: #FFFFFF; border-top: none; }
+
+/* interactive hovers that used black as the accent colour */
+.nav-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.header-pincode:hover { border-color: var(--accent); color: var(--accent); }
+.cat-card:hover { border-color: var(--accent); background: var(--surface-2); }
+.tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+.v-opt:hover { border-color: var(--accent); }
+.filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+.p-breadcrumb a:hover { color: var(--accent); }
+.g-thumb.on { border-color: var(--accent); }
+.nav-dropdown { border: 1px solid var(--border); border-top: 2px solid var(--accent); }
+
+/* section-title rust underline (matches reference) */
+.section-title { position: relative; }
+.section-title::after { content:""; display:block; width:46px; height:2px; background: var(--accent); margin: 12px auto 0; border-radius:2px; }
+
+/* darken former light placeholder / input surfaces */
+.header-search { background: var(--surface-2); border-color: var(--border); }
+.prod-img-wrap { background: var(--surface-2); }
+.prod-img-wrap .emoji-placeholder { background: var(--surface-2); background-image: none; }
+.cat-img, .gallery-main, .g-thumb, .cart-img, .blog-img { background: var(--surface-2); }
+.wish-btn { background: rgba(20,32,26,.82); border-color: var(--border); }
+
+/* sale / saving pills for dark bg */
+.p-saving { background: rgba(86,181,131,.16); color: var(--green); }
+.p-off, .prod-off, .review-product { color: var(--gold); }
+
+/* ---- FLIP-BOOK cream-paper island keeps dark ink ---- */
+.occasions { background: var(--bg); }
+.pg-intro h3, .pg-coll-name, .pg-end h3 { color: var(--ink); }
+.pg-intro p, .pg-end p, .pg-coll-copy { color: var(--ink-muted); }
+.pg-explore { color: var(--ink); border-color: var(--ink); background: transparent; }
+.pg-explore:hover { background: var(--ink); color: #FBF7EE; }
+.pg-end .btn.btn-black { background: var(--accent); color:#FFFFFF; }
+
+/* text inputs on dark bg */
+.qty-inp { color: var(--text); }
+input[type="text"], input:not([type]) { background: var(--surface-2); color: var(--text); border-color: var(--border) !important; }
+input[type="text"]::placeholder, input:not([type])::placeholder { color: var(--muted); }
+.header-search input { background: transparent; }
+
+/* hero eyebrow accent */
+.hero-eyebrow { color: var(--gold); }
 </style>
 </head>
 <body>
@@ -534,7 +608,7 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
       <div class="h-icon">
         <div style="position:relative">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-          <span class="badge-count" style="background:#1A1A1A">0</span>
+          <span class="badge-count" style="background:var(--accent)">0</span>
         </div>
       </div>
       <div class="h-icon" onclick="goTo('cart')">
@@ -584,12 +658,12 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
   <section class="hero">
     <div class="hero-track" id="heroTrack">
 
-      <div class="hero-slide" style="background: linear-gradient(135deg,#F0EDE6 0%,#D4C5A9 100%);">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:5%;background:linear-gradient(135deg,#F8F5EF,#E8DDD0);">
+      <div class="hero-slide" style="background: linear-gradient(135deg,#0E2620 0%,#081611 100%);">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:5%;background:linear-gradient(135deg,#10291F,#081611);">
           <div style="position:absolute;left:80px;top:50%;transform:translateY(-50%);z-index:2;max-width:500px;">
-            <p class="hero-eyebrow" style="color:#8B6914;">An Evolution, Set In Platinum</p>
-            <h1 class="hero-title" style="color:#1A1A1A;text-shadow:none;">platinum<br><em style="font-style:italic;">plated</em> SILVER</h1>
-            <p class="hero-sub" style="color:#555;letter-spacing:.15em;font-size:.78rem;">Starting From Just ₹1,700</p>
+            <p class="hero-eyebrow" style="color:var(--gold);">An Evolution, Set In Platinum</p>
+            <h1 class="hero-title" style="color:#F6F2E8;text-shadow:none;">platinum<br><em style="font-style:italic;">plated</em> SILVER</h1>
+            <p class="hero-sub" style="color:#B9C6BE;letter-spacing:.15em;font-size:.78rem;">Starting From Just ₹1,700</p>
             <div class="hero-actions">
               <button class="btn btn-black" onclick="goTo('collection')">SHOP NOW</button>
             </div>
@@ -602,7 +676,7 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
         </div>
       </div>
 
-      <div class="hero-slide" style="background:linear-gradient(135deg,#1A1A1A,#3D3020);">
+      <div class="hero-slide" style="background:linear-gradient(135deg,#06120F,#3A2016);">
         <div class="hero-overlay">
           <div class="hero-content">
             <p class="hero-eyebrow">New Collection 2024</p>
@@ -614,11 +688,11 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
             </div>
           </div>
         </div>
-        <div style="position:absolute;right:0;top:0;bottom:0;width:45%;background:linear-gradient(135deg,#C8A951,#8B6914);opacity:.15;"></div>
+        <div style="position:absolute;right:0;top:0;bottom:0;width:45%;background:linear-gradient(135deg,#C56A4C,#7A3B26);opacity:.22;"></div>
         <div style="position:absolute;right:10%;top:50%;transform:translateY(-50%);font-size:7rem;opacity:.18;">💎</div>
       </div>
 
-      <div class="hero-slide" style="background:linear-gradient(135deg,#5C4033,#2D1B10);">
+      <div class="hero-slide" style="background:linear-gradient(135deg,#0E241E,#06120F);">
         <div class="hero-overlay">
           <div class="hero-content">
             <p class="hero-eyebrow">Exclusive Bridal Range</p>
@@ -799,11 +873,11 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
     <h2 class="recipient-title">Shop By Recipient</h2>
     <div class="recipient-grid">
       <div class="rec-item" onclick="goTo('collection')">
-        <div class="rec-item-bg" style="background:linear-gradient(135deg,#F0E8E0,#D4C0A8);">💃</div>
+        <div class="rec-item-bg" style="background:linear-gradient(135deg,#1B332B,#0B1F1A);">💃</div>
         <div class="rec-bottom"><div><p class="rec-label">Gifts For <strong>Her</strong></p></div><div class="rec-arrow">→</div></div>
       </div>
       <div class="rec-item" onclick="goTo('collection')">
-        <div class="rec-item-bg" style="background:linear-gradient(135deg,#2D2D2D,#1A1A1A);font-size:5rem;">🧔</div>
+        <div class="rec-item-bg" style="background:linear-gradient(135deg,#0E241E,#06120F);font-size:5rem;">🧔</div>
         <div class="rec-bottom"><div><p class="rec-label">Gifts For <strong>Him</strong></p></div><div class="rec-arrow">→</div></div>
       </div>
     </div>
@@ -962,7 +1036,7 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
 
   <!-- BRAND BANNER -->
   <div class="brand-banner">
-    <div class="brand-banner-bg" style="background:linear-gradient(135deg,#0D3B4E,#1A1A1A);font-size:0;">
+    <div class="brand-banner-bg" style="background:linear-gradient(135deg,#0C2A24,#06120F);font-size:0;">
     </div>
     <div class="brand-banner-overlay">
       <p class="brand-eyebrow">Our Story</p>
@@ -975,10 +1049,10 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
   <section class="blogs">
     <h2 class="section-title">From Our Journal</h2>
     <div class="blog-grid">
-      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#F0E8E0,#D4B5A0);">📖</div><div class="blog-info"><div class="blog-date">Jun 12, 2024</div><h4 class="blog-title">How to Style Mangalsutra with Modern Outfits</h4></div></div>
-      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#E8F0E0,#B5D4A0);">💡</div><div class="blog-info"><div class="blog-date">May 28, 2024</div><h4 class="blog-title">The Complete Guide to Jewellery Care at Home</h4></div></div>
-      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#F0E0E8,#D4A0B5);">👑</div><div class="blog-info"><div class="blog-date">May 15, 2024</div><h4 class="blog-title">Bridal Jewellery Trends You'll Love in 2024</h4></div></div>
-      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#E0E8F0,#A0B5D4);">🎁</div><div class="blog-info"><div class="blog-date">Apr 30, 2024</div><h4 class="blog-title">Best Jewellery Gifts for Every Budget</h4></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#2A1D14,#0E0B09);">📖</div><div class="blog-info"><div class="blog-date">Jun 12, 2024</div><h4 class="blog-title">How to Style Mangalsutra with Modern Outfits</h4></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#16281B,#0A140E);">💡</div><div class="blog-info"><div class="blog-date">May 28, 2024</div><h4 class="blog-title">The Complete Guide to Jewellery Care at Home</h4></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#2A1620,#120A10);">👑</div><div class="blog-info"><div class="blog-date">May 15, 2024</div><h4 class="blog-title">Bridal Jewellery Trends You'll Love in 2024</h4></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#16202A,#0A1018);">🎁</div><div class="blog-info"><div class="blog-date">Apr 30, 2024</div><h4 class="blog-title">Best Jewellery Gifts for Every Budget</h4></div></div>
     </div>
     <div style="text-align:center;margin-top:32px;"><button class="btn btn-outline">View All Blogs</button></div>
   </section>
@@ -1039,10 +1113,10 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
     <div class="gallery">
       <div class="gallery-main" id="mainImg"><div style="font-size:8rem;display:flex;align-items:center;justify-content:center;width:100%;height:100%;">💛</div></div>
       <div class="gallery-thumbs">
-        <div class="g-thumb on" onclick="switchThumb(this,'💛')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#F5F1E8;">💛</div></div>
-        <div class="g-thumb" onclick="switchThumb(this,'💎')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#F0EDE6;">💎</div></div>
-        <div class="g-thumb" onclick="switchThumb(this,'✨')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#EDE8E0;">✨</div></div>
-        <div class="g-thumb" onclick="switchThumb(this,'🌟')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#F2EEE6;">🌟</div></div>
+        <div class="g-thumb on" onclick="switchThumb(this,'💛')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#15251F;">💛</div></div>
+        <div class="g-thumb" onclick="switchThumb(this,'💎')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#15251F;">💎</div></div>
+        <div class="g-thumb" onclick="switchThumb(this,'✨')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#15251F;">✨</div></div>
+        <div class="g-thumb" onclick="switchThumb(this,'🌟')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#15251F;">🌟</div></div>
       </div>
     </div>
 
@@ -1160,14 +1234,14 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
     </div>
 
     <div class="prod-grid">
-      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">💍</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Crystal Peak 9KT Gold Lab Diamond Stud Earring</div><div class="prod-pricing"><span class="prod-price">₹7,494</span><span class="prod-compare">₹8,817</span><span class="prod-off">Flat 15% off MRP</span></div><div class="prod-colors"><span class="color-dot" style="background:#C8A951"></span><span class="color-dot" style="background:#E8C8B0"></span><span class="color-dot" style="background:#C0C0C0"></span></div></div></div>
-      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">💛</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Orba Shine 9KT Gold Lab Diamond Bracelet</div><div class="prod-pricing"><span class="prod-price">₹9,572</span><span class="prod-compare">₹11,261</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
-      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">✨</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Stellar Bloom 9KT Gold Lab Diamond Necklace</div><div class="prod-pricing"><span class="prod-price">₹6,310</span><span class="prod-compare">₹7,424</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
-      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">🌟</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Floral Whisper 9KT Gold Lab Diamond Ring</div><div class="prod-pricing"><span class="prod-price">₹8,712</span><span class="prod-compare">₹10,249</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
-      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">💎</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Celestial Dot 9KT Gold Lab Diamond Pendant</div><div class="prod-pricing"><span class="prod-price">₹7,200</span><span class="prod-compare">₹8,470</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
-      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">🔮</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Starcore Gold Lab Diamond Ring</div><div class="prod-pricing"><span class="prod-price">₹9,100</span><span class="prod-compare">₹10,706</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
-      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">⭐</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Axis Dot 9KT Gold Lab Diamond Earrings</div><div class="prod-pricing"><span class="prod-price">₹6,800</span><span class="prod-compare">₹8,000</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
-      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">🌺</div><div class="prod-badges"><span class="flat-tag">Best Seller</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Bloom Cluster 9KT Gold Diamond Bracelet</div><div class="prod-pricing"><span class="prod-price">₹11,200</span><span class="prod-compare">₹13,176</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(150deg,#17322B,#0B1F1A);">💍</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Crystal Peak 9KT Gold Lab Diamond Stud Earring</div><div class="prod-pricing"><span class="prod-price">₹7,494</span><span class="prod-compare">₹8,817</span><span class="prod-off">Flat 15% off MRP</span></div><div class="prod-colors"><span class="color-dot" style="background:#C8A951"></span><span class="color-dot" style="background:#E8C8B0"></span><span class="color-dot" style="background:#C0C0C0"></span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(150deg,#17322B,#0B1F1A);">💛</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Orba Shine 9KT Gold Lab Diamond Bracelet</div><div class="prod-pricing"><span class="prod-price">₹9,572</span><span class="prod-compare">₹11,261</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(150deg,#17322B,#0B1F1A);">✨</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Stellar Bloom 9KT Gold Lab Diamond Necklace</div><div class="prod-pricing"><span class="prod-price">₹6,310</span><span class="prod-compare">₹7,424</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(150deg,#17322B,#0B1F1A);">🌟</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Floral Whisper 9KT Gold Lab Diamond Ring</div><div class="prod-pricing"><span class="prod-price">₹8,712</span><span class="prod-compare">₹10,249</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(150deg,#17322B,#0B1F1A);">💎</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Celestial Dot 9KT Gold Lab Diamond Pendant</div><div class="prod-pricing"><span class="prod-price">₹7,200</span><span class="prod-compare">₹8,470</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(150deg,#17322B,#0B1F1A);">🔮</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Starcore Gold Lab Diamond Ring</div><div class="prod-pricing"><span class="prod-price">₹9,100</span><span class="prod-compare">₹10,706</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(150deg,#17322B,#0B1F1A);">⭐</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Axis Dot 9KT Gold Lab Diamond Earrings</div><div class="prod-pricing"><span class="prod-price">₹6,800</span><span class="prod-compare">₹8,000</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(150deg,#17322B,#0B1F1A);">🌺</div><div class="prod-badges"><span class="flat-tag">Best Seller</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Bloom Cluster 9KT Gold Diamond Bracelet</div><div class="prod-pricing"><span class="prod-price">₹11,200</span><span class="prod-compare">₹13,176</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
     </div>
 
     <div style="text-align:center;margin-top:48px;display:flex;justify-content:center;gap:8px;">
