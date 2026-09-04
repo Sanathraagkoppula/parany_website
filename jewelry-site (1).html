@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMIÈRE — Fine Jewellery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   LUMIÈRE — JEWELRY STORE
+   Palmonas-inspired layout
+   ============================================ */
+
+:root {
+  --white: #FFFFFF;
+  --bg: #FAFAFA;
+  --black: #1A1A1A;
+  --text: #2D2D2D;
+  --muted: #888888;
+  --border: #E5E5E5;
+  --gold: #C8A951;
+  --gold-dark: #A08735;
+  --red: #D94F3D;
+  --green: #2E7D32;
+  --font-d: 'Playfair Display', Georgia, serif;
+  --font-b: 'DM Sans', system-ui, sans-serif;
+  --r-pill: 50px;
+  --r-card: 8px;
+  --r-sm: 4px;
+  --shadow: 0 2px 12px rgba(0,0,0,.06);
+  --shadow-h: 0 8px 28px rgba(0,0,0,.12);
+  --ease: .25s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body { font-family: var(--font-b); background: var(--bg); color: var(--text); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { cursor: pointer; font-family: var(--font-b); border: none; background: none; }
+
+/* === PAGES === */
+.page { display: none; }
+.page.active { display: block; }
+
+/* === BUTTONS === */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 28px; font-size: .82rem; font-weight: 500; letter-spacing: .04em; border-radius: var(--r-pill); transition: all var(--ease); white-space: nowrap; }
+.btn-black { background: var(--black); color: var(--white); }
+.btn-black:hover { background: #333; }
+.btn-outline { background: transparent; color: var(--black); border: 1.5px solid var(--black); }
+.btn-outline:hover { background: var(--black); color: var(--white); }
+.btn-white { background: var(--white); color: var(--black); }
+.btn-white:hover { background: #eee; }
+.btn-gold { background: var(--gold); color: var(--white); }
+.btn-gold:hover { background: var(--gold-dark); }
+
+/* === ANNOUNCEMENT BAR === */
+.ann-bar { background: var(--black); height: 36px; overflow: hidden; display: flex; align-items: center; }
+.ann-track { display: flex; animation: marquee 28s linear infinite; white-space: nowrap; }
+.ann-item { display: flex; align-items: center; gap: 32px; font-size: .72rem; font-weight: 500; letter-spacing: .08em; padding: 0 48px; color: var(--white); text-transform: uppercase; }
+.ann-item span { color: var(--gold); }
+.ann-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); display: inline-block; flex-shrink: 0; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* === HEADER === */
+.site-header { position: sticky; top: 0; z-index: 200; background: var(--white); border-bottom: 1px solid var(--border); }
+.header-top { display: flex; align-items: center; height: 64px; padding: 0 32px; gap: 20px; }
+.logo { font-family: var(--font-d); font-size: 1.5rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--black); flex-shrink: 0; cursor: pointer; }
+.header-pincode { display: flex; align-items: center; gap: 5px; font-size: .75rem; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 5px 10px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.header-pincode:hover { border-color: var(--black); color: var(--black); }
+.header-search { flex: 1; max-width: 500px; display: flex; align-items: center; gap: 8px; background: #F5F1E8; border: 1px solid #E0D8C8; padding: 9px 16px; }
+.header-search input { flex: 1; border: none; background: transparent; font-family: var(--font-b); font-size: .84rem; color: var(--text); outline: none; }
+.header-search input::placeholder { color: var(--muted); }
+.header-icons { display: flex; align-items: center; gap: 20px; flex-shrink: 0; margin-left: auto; }
+.h-icon { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: .6rem; color: var(--text); font-weight: 500; letter-spacing: .04em; position: relative; cursor: pointer; transition: color var(--ease); }
+.h-icon:hover { color: var(--gold); }
+.h-icon svg { width: 22px; height: 22px; }
+.badge-count { position: absolute; top: -5px; right: -8px; background: var(--red); color: var(--white); font-size: .58rem; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+/* === NAV === */
+.site-nav { background: var(--white); border-top: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+.site-nav::-webkit-scrollbar { display: none; }
+.nav-list { display: flex; padding: 0 24px; white-space: nowrap; }
+.nav-item { position: relative; }
+.nav-link { display: flex; align-items: center; gap: 5px; padding: 11px 13px; font-size: .77rem; font-weight: 500; color: var(--text); border-bottom: 2px solid transparent; transition: all var(--ease); }
+.nav-link:hover { color: var(--black); border-bottom-color: var(--black); }
+.nb { font-size: .5rem; font-weight: 700; padding: 2px 6px; border-radius: 10px; text-transform: uppercase; }
+.nb-blue { background: #1565C0; color: #fff; }
+.nb-gold { background: var(--gold); color: #fff; }
+.nb-brown { background: #5C4033; color: #fff; }
+.nb-pink { background: #AD1457; color: #fff; }
+.nb-red { background: var(--red); color: #fff; }
+.nav-dropdown { display: none; position: absolute; top: 100%; left: 0; background: var(--white); border: 1px solid var(--border); border-top: 2px solid var(--black); min-width: 200px; box-shadow: var(--shadow-h); z-index: 300; border-radius: 0 0 var(--r-card) var(--r-card); }
+.nav-item:hover .nav-dropdown { display: block; }
+.nav-dropdown a { display: block; padding: 10px 20px; font-size: .8rem; color: var(--text); border-bottom: 1px solid var(--border); transition: all var(--ease); }
+.nav-dropdown a:last-child { border-bottom: none; }
+.nav-dropdown a:hover { background: var(--bg); padding-left: 26px; }
+
+/* === HERO SLIDER === */
+.hero { position: relative; overflow: hidden; background: #111; }
+.hero-track { display: flex; transition: transform .65s cubic-bezier(.4,0,.2,1); }
+.hero-slide { min-width: 100%; aspect-ratio: 16/7; position: relative; overflow: hidden; }
+.hero-slide-bg { width: 100%; height: 100%; object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+.hero-slide-img { width: 100%; height: 100%; object-fit: cover; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.15) 55%, transparent 100%); display: flex; align-items: center; padding: 0 80px; }
+.hero-content { max-width: 500px; color: var(--white); }
+.hero-eyebrow { font-size: .7rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; font-weight: 500; }
+.hero-title { font-family: var(--font-d); font-size: clamp(2rem,5vw,3.6rem); font-weight: 700; line-height: 1.12; margin-bottom: 18px; }
+.hero-sub { font-size: .88rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 32px; opacity: .85; }
+.hero-actions { display: flex; gap: 12px; }
+.hero-prev, .hero-next { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); color: var(--white); font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all var(--ease); backdrop-filter: blur(4px); z-index: 2; }
+.hero-prev { left: 16px; }
+.hero-next { right: 16px; }
+.hero-prev:hover, .hero-next:hover { background: rgba(255,255,255,.35); }
+.hero-dots { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 7px; z-index: 2; }
+.hero-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.45); border: none; cursor: pointer; transition: all var(--ease); }
+.hero-dot.on { background: var(--white); width: 22px; border-radius: 4px; }
+
+/* === SOCIAL PROOF TICKER === */
+.proof-bar { background: var(--white); border-bottom: 1px solid var(--border); height: 34px; overflow: hidden; display: flex; align-items: center; }
+.proof-track { display: flex; animation: marquee 22s linear infinite; white-space: nowrap; }
+.proof-item { display: flex; align-items: center; gap: 28px; font-size: .68rem; font-weight: 500; letter-spacing: .07em; padding: 0 40px; color: var(--muted); text-transform: uppercase; }
+.proof-item strong { color: var(--black); }
+
+/* === CATEGORY ICONS === */
+.cat-section { padding: 48px 24px; background: var(--white); border-bottom: 1px solid var(--border); }
+.cat-label { text-align: center; font-size: .65rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 32px; font-weight: 500; }
+.cat-grid { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; max-width: 960px; margin: 0 auto; }
+.cat-card { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px 14px; border-radius: var(--r-card); border: 1.5px solid transparent; transition: all var(--ease); min-width: 88px; text-align: center; cursor: pointer; }
+.cat-card:hover { border-color: var(--black); background: var(--bg); }
+.cat-img { width: 88px; height: 88px; border-radius: 50%; overflow: hidden; background: #F0EDE6; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
+.cat-img img { width: 100%; height: 100%; object-fit: cover; }
+.cat-name { font-size: .75rem; font-weight: 500; color: var(--text); }
+
+/* === PRODUCT TABS === */
+.tabbed { padding: 56px 24px; background: var(--bg); }
+.section-title { font-family: var(--font-d); font-size: clamp(1rem,2vw,1.4rem); font-weight: 600; text-align: center; margin-bottom: 32px; color: var(--black); letter-spacing: .14em; text-transform: uppercase; }
+.tabs-nav { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; margin-bottom: 36px; }
+.tab-btn { padding: 8px 20px; font-size: .76rem; font-weight: 500; letter-spacing: .06em; border: 1.5px solid var(--border); background: var(--white); color: var(--muted); transition: all var(--ease); border-radius: 0; cursor: pointer; }
+.tab-btn:hover { border-color: var(--black); color: var(--black); }
+.tab-btn.on { background: var(--black); border-color: var(--black); color: var(--white); }
+.tab-panel { display: none; }
+.tab-panel.on { display: block; }
+
+/* === PRODUCT GRID === */
+.prod-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.view-all { text-align: center; margin-top: 36px; }
+
+/* === PRODUCT CARD === */
+.prod-card { background: var(--white); border-radius: var(--r-card); overflow: hidden; border: 1px solid var(--border); transition: box-shadow var(--ease); position: relative; cursor: pointer; }
+.prod-card:hover { box-shadow: var(--shadow-h); }
+.prod-img-wrap { position: relative; aspect-ratio: 1/1; overflow: hidden; background: #F5F3EF; }
+.prod-img-wrap .emoji-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: linear-gradient(135deg, #F5F1E8, #EDE5D5); }
+.prod-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.prod-card:hover .prod-img-wrap img { transform: scale(1.05); }
+.prod-badges { position: absolute; top: 8px; left: 8px; display: flex; flex-direction: column; gap: 4px; }
+.flat-tag { background: var(--red); color: var(--white); font-size: .6rem; font-weight: 700; padding: 3px 8px; border-radius: 2px; letter-spacing: .04em; text-transform: uppercase; }
+.wish-btn { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.92); display: flex; align-items: center; justify-content: center; font-size: .95rem; opacity: 0; transition: opacity var(--ease); border: 1px solid var(--border); cursor: pointer; }
+.prod-card:hover .wish-btn { opacity: 1; }
+.wish-btn.active { color: var(--red); opacity: 1; }
+.add-btn { position: absolute; bottom: -42px; left: 0; right: 0; background: rgba(255,255,255,.96); color: var(--black); font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: 11px; text-align: center; transition: bottom .28s ease; border-top: 1px solid var(--border); }
+.prod-card:hover .add-btn { bottom: 0; }
+.prod-info { padding: 12px 14px 14px; }
+.prod-name { font-family: var(--font-d); font-size: .86rem; font-weight: 400; color: var(--black); margin-bottom: 6px; line-height: 1.3; }
+.prod-pricing { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.prod-price { font-size: .88rem; font-weight: 600; color: var(--black); }
+.prod-compare { font-size: .76rem; color: var(--muted); text-decoration: line-through; }
+.prod-off { font-size: .68rem; color: var(--green); font-weight: 600; }
+.prod-colors { display: flex; gap: 4px; margin-top: 7px; }
+.color-dot { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--border); }
+
+/* === SHOP BY RECIPIENT === */
+.recipient { background: var(--white); }
+.recipient-title { font-family: var(--font-d); font-size: 1.15rem; letter-spacing: .16em; text-transform: uppercase; text-align: center; padding: 48px 24px 28px; font-weight: 600; }
+.recipient-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.rec-item { position: relative; overflow: hidden; cursor: pointer; }
+.rec-item-bg { aspect-ratio: 1/.9; display: flex; align-items: center; justify-content: center; font-size: 6rem; }
+.rec-item img { width: 100%; aspect-ratio: 1/.9; object-fit: cover; transition: transform .6s ease; display: block; }
+.rec-item:hover img { transform: scale(1.04); }
+.rec-bottom { background: var(--white); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); }
+.rec-label { font-size: .85rem; font-weight: 500; color: var(--black); }
+.rec-label strong { font-family: var(--font-d); font-weight: 700; }
+.rec-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--black); display: flex; align-items: center; justify-content: center; font-size: .95rem; transition: all var(--ease); }
+.rec-item:hover .rec-arrow { background: var(--black); color: var(--white); }
+
+/* === FOR EVERY YOU === */
+.occasions { padding: 48px 0; background: var(--white); overflow: hidden; }
+.occ-viewport { overflow: hidden; }
+.occ-track { display: flex; gap: 18px; padding: 0 24px; transition: transform .45s cubic-bezier(.4,0,.2,1); }
+.occ-card { flex: 0 0 260px; border-radius: var(--r-card); overflow: hidden; position: relative; cursor: pointer; }
+.occ-card-bg { aspect-ratio: .72; display: flex; align-items: flex-end; justify-content: center; font-size: 5rem; }
+.occ-card img { width: 100%; aspect-ratio: .72; object-fit: cover; display: block; transition: transform .5s ease; }
+.occ-card:hover img { transform: scale(1.04); }
+.occ-label { position: absolute; bottom: 0; left: 0; right: 0; background: var(--white); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
+.occ-label-text { font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--black); border-bottom: 1.5px solid var(--black); padding-bottom: 2px; }
+.occ-controls { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+.occ-btn { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--black); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--ease); font-size: .9rem; }
+.occ-btn:hover { background: var(--black); color: var(--white); }
+
+/* === TRUST BADGES === */
+.trust { padding: 64px 24px; background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.trust-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 860px; margin: 0 auto; }
+.trust-item { text-align: center; }
+.trust-icon { font-size: 2.8rem; margin-bottom: 18px; }
+.trust-title { font-family: var(--font-d); font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; color: var(--black); }
+.trust-desc { font-size: .8rem; color: var(--muted); line-height: 1.75; max-width: 210px; margin: 0 auto; }
+
+/* === TESTIMONIALS === */
+.reviews { padding: 64px 24px; background: var(--white); }
+.review-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; margin-top: 40px; }
+.review-card { padding: 26px; border: 1px solid var(--border); border-radius: var(--r-card); transition: box-shadow var(--ease); }
+.review-card:hover { box-shadow: var(--shadow); }
+.review-stars { color: var(--gold); font-size: .88rem; letter-spacing: 2px; margin-bottom: 12px; }
+.review-product { font-size: .7rem; color: var(--gold); font-weight: 500; margin-bottom: 8px; text-decoration: underline; text-underline-offset: 2px; }
+.review-text { font-size: .86rem; color: var(--text); line-height: 1.78; margin-bottom: 16px; font-style: italic; }
+.review-author { font-size: .78rem; font-weight: 600; color: var(--black); }
+
+/* === BLOG STRIP === */
+.blogs { padding: 64px 24px; background: var(--bg); }
+.blog-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-top: 36px; }
+.blog-card { background: var(--white); border-radius: var(--r-card); overflow: hidden; border: 1px solid var(--border); transition: box-shadow var(--ease); cursor: pointer; }
+.blog-card:hover { box-shadow: var(--shadow-h); }
+.blog-img { aspect-ratio: 4/3; overflow: hidden; background: #F0EDE6; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+.blog-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.blog-card:hover .blog-img img { transform: scale(1.06); }
+.blog-info { padding: 16px; }
+.blog-date { font-size: .68rem; color: var(--muted); margin-bottom: 7px; letter-spacing: .04em; }
+.blog-title { font-family: var(--font-d); font-size: .92rem; font-weight: 600; color: var(--black); line-height: 1.4; }
+
+/* === BRAND BANNER === */
+.brand-banner { position: relative; background: var(--black); overflow: hidden; }
+.brand-banner-bg { width: 100%; aspect-ratio: 16/7; object-fit: cover; opacity: .6; display: flex; align-items: center; justify-content: center; font-size: 8rem; }
+.brand-banner-bg img { width: 100%; height: 100%; object-fit: cover; opacity: .6; }
+.brand-banner-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--white); text-align: center; padding: 24px; }
+.brand-eyebrow { font-size: .68rem; letter-spacing: .3em; text-transform: uppercase; margin-bottom: 16px; opacity: .8; }
+.brand-title { font-family: var(--font-d); font-size: clamp(1.8rem,5vw,3.8rem); font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+
+/* === FOOTER === */
+.site-footer { background: var(--black); color: rgba(255,255,255,.75); padding: 56px 24px 24px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 44px; padding-bottom: 44px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 28px; }
+.f-logo { font-family: var(--font-d); font-size: 1.5rem; font-weight: 700; color: var(--white); letter-spacing: .18em; text-transform: uppercase; margin-bottom: 14px; }
+.f-desc { font-size: .8rem; line-height: 1.8; opacity: .6; max-width: 260px; margin-bottom: 22px; }
+.f-social { display: flex; gap: 10px; }
+.f-soc-link { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: .9rem; transition: background var(--ease); cursor: pointer; }
+.f-soc-link:hover { background: var(--gold); }
+.f-col-title { font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; color: var(--white); font-weight: 600; margin-bottom: 18px; }
+.f-links { display: flex; flex-direction: column; gap: 9px; }
+.f-links a { font-size: .8rem; color: rgba(255,255,255,.6); transition: color var(--ease); }
+.f-links a:hover { color: var(--white); }
+.f-app { margin-top: 20px; }
+.f-app-label { font-size: .65rem; letter-spacing: .12em; color: rgba(255,255,255,.45); text-transform: uppercase; margin-bottom: 9px; }
+.f-app-btns { display: flex; gap: 9px; flex-wrap: wrap; }
+.f-app-btn { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-sm); padding: 6px 11px; font-size: .7rem; color: var(--white); transition: background var(--ease); cursor: pointer; }
+.f-app-btn:hover { background: rgba(255,255,255,.18); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+.f-copy { font-size: .72rem; opacity: .45; }
+.f-pays { display: flex; gap: 7px; }
+.f-pay { background: rgba(255,255,255,.08); border-radius: 3px; padding: 3px 8px; font-size: .62rem; color: rgba(255,255,255,.65); font-weight: 500; }
+
+/* ============================================
+   PRODUCT PAGE
+   ============================================ */
+.prod-page { max-width: 1200px; margin: 0 auto; padding: 40px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.gallery { position: sticky; top: 80px; }
+.gallery-main { aspect-ratio: 1/1; border-radius: var(--r-card); overflow: hidden; background: #F5F3EF; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; font-size: 8rem; }
+.gallery-main img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-thumbs { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.g-thumb { aspect-ratio: 1/1; border-radius: var(--r-sm); overflow: hidden; background: #F0EDE6; cursor: pointer; border: 2px solid transparent; transition: border-color var(--ease); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+.g-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.g-thumb.on { border-color: var(--black); }
+.p-breadcrumb { font-size: .72rem; color: var(--muted); margin-bottom: 14px; }
+.p-breadcrumb a { cursor: pointer; }
+.p-breadcrumb a:hover { color: var(--black); }
+.p-cat { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 9px; font-weight: 500; }
+.p-title { font-family: var(--font-d); font-size: clamp(1.4rem,2.5vw,2rem); font-weight: 600; margin-bottom: 12px; line-height: 1.22; }
+.p-ratings { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+.p-stars { color: var(--gold); font-size: .88rem; }
+.p-rating-text { font-size: .76rem; color: var(--muted); }
+.p-pricing { display: flex; align-items: center; gap: 11px; margin-bottom: 5px; flex-wrap: wrap; }
+.p-price { font-size: 1.5rem; font-weight: 700; color: var(--black); }
+.p-compare { font-size: 1rem; color: var(--muted); text-decoration: line-through; }
+.p-saving { font-size: .78rem; color: var(--green); font-weight: 600; background: #E8F5E9; padding: 3px 10px; border-radius: var(--r-sm); }
+.p-mrp { font-size: .7rem; color: var(--muted); margin-bottom: 18px; }
+.p-desc { font-size: .86rem; color: var(--muted); line-height: 1.88; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+.p-variants { margin-bottom: 22px; }
+.v-label { font-size: .76rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 11px; color: var(--black); }
+.v-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.v-opt { padding: 8px 16px; border: 1.5px solid var(--border); border-radius: var(--r-pill); font-size: .78rem; font-weight: 500; cursor: pointer; transition: all var(--ease); background: var(--white); }
+.v-opt:hover { border-color: var(--black); }
+.v-opt.on { border-color: var(--black); background: var(--black); color: var(--white); }
+.p-actions { display: flex; gap: 11px; margin-bottom: 18px; }
+.qty { display: flex; align-items: center; border: 1.5px solid var(--border); border-radius: var(--r-pill); overflow: hidden; }
+.qty-btn { width: 44px; height: 50px; font-size: 1.2rem; color: var(--text); cursor: pointer; transition: background var(--ease); }
+.qty-btn:hover { background: var(--bg); }
+.qty-inp { width: 46px; height: 50px; text-align: center; border: none; font-family: var(--font-b); font-size: .9rem; font-weight: 600; background: transparent; outline: none; }
+.p-perks { display: flex; gap: 14px; flex-wrap: wrap; padding: 15px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+.p-perk { display: flex; align-items: center; gap: 6px; font-size: .76rem; color: var(--muted); }
+
+/* ============================================
+   COLLECTION PAGE
+   ============================================ */
+.coll-page { max-width: 1360px; margin: 0 auto; padding: 40px 24px; }
+.coll-header { text-align: center; margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+.coll-count { font-size: .8rem; color: var(--muted); margin-top: 8px; }
+.coll-filters { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 32px; }
+.filter-chip { padding: 7px 17px; border: 1.5px solid var(--border); border-radius: var(--r-pill); font-size: .76rem; font-weight: 500; background: var(--white); color: var(--muted); cursor: pointer; transition: all var(--ease); }
+.filter-chip:hover { border-color: var(--black); color: var(--black); }
+.filter-chip.on { background: var(--black); border-color: var(--black); color: var(--white); }
+
+/* ============================================
+   CART PAGE
+   ============================================ */
+.cart-page { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+.cart-title { font-family: var(--font-d); font-size: 1.7rem; font-weight: 600; margin-bottom: 28px; }
+.cart-items { border-top: 1px solid var(--border); }
+.cart-item { display: grid; grid-template-columns: 100px 1fr auto; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--border); align-items: start; }
+.cart-img { width: 100px; height: 100px; border-radius: var(--r-sm); overflow: hidden; background: #F0EDE6; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 1px solid var(--border); }
+.cart-img img { width: 100%; height: 100%; object-fit: cover; }
+.cart-item-name { font-family: var(--font-d); font-size: .95rem; font-weight: 600; color: var(--black); margin-bottom: 4px; }
+.cart-item-var { font-size: .76rem; color: var(--muted); margin-bottom: 12px; }
+.cart-item-price { font-size: .94rem; font-weight: 600; color: var(--black); text-align: right; }
+.cart-item-remove { font-size: .7rem; color: var(--muted); text-align: right; margin-top: 8px; display: block; cursor: pointer; }
+.cart-item-remove:hover { color: var(--red); }
+.cart-summary { background: var(--bg); border-radius: var(--r-card); padding: 26px; margin-top: 28px; border: 1px solid var(--border); }
+.cart-row { display: flex; justify-content: space-between; font-size: .86rem; color: var(--muted); margin-bottom: 10px; }
+.cart-total { display: flex; justify-content: space-between; font-family: var(--font-d); font-size: 1.18rem; font-weight: 600; color: var(--black); padding-top: 14px; border-top: 1px solid var(--border); margin-bottom: 22px; margin-top: 4px; }
+.cart-notice { text-align: center; font-size: .74rem; color: var(--muted); margin-top: 12px; }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .prod-grid { grid-template-columns: repeat(3,1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .prod-page { grid-template-columns: 1fr; gap: 32px; }
+  .gallery { position: static; }
+  .review-grid { grid-template-columns: repeat(2,1fr); }
+  .blog-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 768px) {
+  .header-top { padding: 0 16px; gap: 12px; }
+  .header-search { display: none; }
+  .header-pincode { display: none; }
+  .hero-slide { aspect-ratio: 4/5; }
+  .hero-overlay { padding: 0 20px; align-items: flex-end; padding-bottom: 36px; }
+  .prod-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .recipient-grid { grid-template-columns: 1fr; }
+  .occ-card { flex: 0 0 200px; }
+  .trust-grid { grid-template-columns: 1fr; gap: 28px; }
+  .review-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: repeat(2,1fr); }
+  .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .cart-item { grid-template-columns: 80px 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     SHARED: ANNOUNCEMENT BAR
+     ============================================ -->
+<div class="ann-bar">
+  <div class="ann-track">
+    <div class="ann-item">Big Bling Sale — Starting From Flat <span>₹999</span><span class="ann-dot"></span></div>
+    <div class="ann-item">✨ Free Shipping on Orders Above <span>₹999</span><span class="ann-dot"></span></div>
+    <div class="ann-item"><span>8L+</span> Happy Customers · Ships in 24 Hours<span class="ann-dot"></span></div>
+    <div class="ann-item">Easy <span>7-Day Returns</span> · 100% Genuine Jewellery<span class="ann-dot"></span></div>
+    <!-- duplicate for seamless loop -->
+    <div class="ann-item">Big Bling Sale — Starting From Flat <span>₹999</span><span class="ann-dot"></span></div>
+    <div class="ann-item">✨ Free Shipping on Orders Above <span>₹999</span><span class="ann-dot"></span></div>
+    <div class="ann-item"><span>8L+</span> Happy Customers · Ships in 24 Hours<span class="ann-dot"></span></div>
+    <div class="ann-item">Easy <span>7-Day Returns</span> · 100% Genuine Jewellery<span class="ann-dot"></span></div>
+  </div>
+</div>
+
+<!-- ============================================
+     SHARED: HEADER
+     ============================================ -->
+<header class="site-header">
+  <div class="header-top">
+    <div class="logo" onclick="goTo('home')">LUMIÈRE</div>
+    <div class="header-pincode">📍 Enter Pincode ▾</div>
+    <div class="header-search">
+      <input type="text" placeholder="Search for Mangalsutra, Rings, Necklaces...">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </div>
+    <div class="header-icons">
+      <div class="h-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+      </div>
+      <div class="h-icon">
+        <div style="position:relative">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          <span class="badge-count" style="background:#1A1A1A">0</span>
+        </div>
+      </div>
+      <div class="h-icon" onclick="goTo('cart')">
+        <div style="position:relative">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          <span class="badge-count" id="cart-count">3</span>
+        </div>
+      </div>
+      <div class="h-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      </div>
+    </div>
+  </div>
+  <nav class="site-nav">
+    <ul class="nav-list">
+      <li class="nav-item"><a class="nav-link" onclick="goTo('home')">New Arrivals <span class="nb nb-blue">New</span></a></li>
+      <li class="nav-item"><a class="nav-link">Platinum Plated Silver <span class="nb nb-blue">New</span></a></li>
+      <li class="nav-item"><a class="nav-link" onclick="goTo('collection')">Best Seller</a></li>
+      <li class="nav-item"><a class="nav-link">Fine Silver</a></li>
+      <li class="nav-item"><a class="nav-link">9KT Fine Gold <span class="nb nb-gold">Luxe</span></a></li>
+      <li class="nav-item"><a class="nav-link">Emily In Paris <span class="nb nb-brown">à la mode</span></a></li>
+      <li class="nav-item"><a class="nav-link">Shraddha's Favourite</a></li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="goTo('collection')">Demifine® Collection ▾</a>
+        <div class="nav-dropdown">
+          <a onclick="goTo('collection')">Rings</a>
+          <a onclick="goTo('collection')">Necklaces</a>
+          <a onclick="goTo('collection')">Earrings</a>
+          <a onclick="goTo('collection')">Bracelets</a>
+          <a onclick="goTo('collection')">Mangalsutra</a>
+          <a onclick="goTo('collection')">Mens</a>
+        </div>
+      </li>
+      <li class="nav-item"><a class="nav-link">Gifting</a></li>
+      <li class="nav-item"><a class="nav-link">POP <span class="nb nb-pink">New</span></a></li>
+      <li class="nav-item"><a class="nav-link">About Us</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ============================================
+     PAGE: HOME
+     ============================================ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO SLIDER -->
+  <section class="hero">
+    <div class="hero-track" id="heroTrack">
+
+      <div class="hero-slide" style="background: linear-gradient(135deg,#F0EDE6 0%,#D4C5A9 100%);">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:5%;background:linear-gradient(135deg,#F8F5EF,#E8DDD0);">
+          <div style="position:absolute;left:80px;top:50%;transform:translateY(-50%);z-index:2;max-width:500px;">
+            <p class="hero-eyebrow" style="color:#8B6914;">An Evolution, Set In Platinum</p>
+            <h1 class="hero-title" style="color:#1A1A1A;text-shadow:none;">platinum<br><em style="font-style:italic;">plated</em> SILVER</h1>
+            <p class="hero-sub" style="color:#555;letter-spacing:.15em;font-size:.78rem;">Starting From Just ₹1,700</p>
+            <div class="hero-actions">
+              <button class="btn btn-black" onclick="goTo('collection')">SHOP NOW</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:24px;padding-right:4%;opacity:.9;">
+            <div style="font-size:4.5rem;">💍</div>
+            <div style="font-size:3.5rem;margin-left:40px;">💍</div>
+            <div style="font-size:5rem;">💍</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-slide" style="background:linear-gradient(135deg,#1A1A1A,#3D3020);">
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <p class="hero-eyebrow">New Collection 2024</p>
+            <h1 class="hero-title">Everyday<br>Luxury<br>Jewellery</h1>
+            <p class="hero-sub">Handcrafted Gold & Silver</p>
+            <div class="hero-actions">
+              <button class="btn btn-white" onclick="goTo('collection')">Explore Collection</button>
+              <button class="btn" style="border:1.5px solid rgba(255,255,255,.55);color:#fff;background:transparent;">View Bridal</button>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;right:0;top:0;bottom:0;width:45%;background:linear-gradient(135deg,#C8A951,#8B6914);opacity:.15;"></div>
+        <div style="position:absolute;right:10%;top:50%;transform:translateY(-50%);font-size:7rem;opacity:.18;">💎</div>
+      </div>
+
+      <div class="hero-slide" style="background:linear-gradient(135deg,#5C4033,#2D1B10);">
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <p class="hero-eyebrow">Exclusive Bridal Range</p>
+            <h1 class="hero-title">Because You<br>Deserve<br>To Shine</h1>
+            <p class="hero-sub">SGL Certified Lab Diamonds</p>
+            <div class="hero-actions">
+              <button class="btn btn-gold" onclick="goTo('collection')">Shop Bridal</button>
+            </div>
+          </div>
+        </div>
+        <div style="position:absolute;right:8%;top:50%;transform:translateY(-50%);font-size:8rem;opacity:.2;">👑</div>
+      </div>
+
+    </div>
+    <button class="hero-prev" onclick="heroSlide(-1)">&#8592;</button>
+    <button class="hero-next" onclick="heroSlide(1)">&#8594;</button>
+    <div class="hero-dots">
+      <button class="hero-dot on" onclick="heroGo(0)"></button>
+      <button class="hero-dot" onclick="heroGo(1)"></button>
+      <button class="hero-dot" onclick="heroGo(2)"></button>
+    </div>
+  </section>
+
+  <!-- PROOF TICKER -->
+  <div class="proof-bar">
+    <div class="proof-track">
+      <div class="proof-item"><strong>8L+</strong> Happy Customers</div>
+      <div class="proof-item">Gifts For Her @ <strong>50% OFF</strong></div>
+      <div class="proof-item">Ships in <strong>24 Hours</strong></div>
+      <div class="proof-item"><strong>4.8★</strong> Google Rating</div>
+      <div class="proof-item">Free Shipping Above <strong>₹999</strong></div>
+      <div class="proof-item">Easy <strong>7-Day Returns</strong></div>
+      <div class="proof-item">SGL <strong>Certified</strong> Diamonds</div>
+      <div class="proof-item"><strong>8L+</strong> Happy Customers</div>
+      <div class="proof-item">Gifts For Her @ <strong>50% OFF</strong></div>
+      <div class="proof-item">Ships in <strong>24 Hours</strong></div>
+      <div class="proof-item"><strong>4.8★</strong> Google Rating</div>
+      <div class="proof-item">Free Shipping Above <strong>₹999</strong></div>
+    </div>
+  </div>
+
+  <!-- CATEGORY ICONS -->
+  <section class="cat-section">
+    <p class="cat-label">Everyday Demifine® Collection</p>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">👂</div><span class="cat-name">Earrings</span></div>
+      <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">📿</div><span class="cat-name">Necklaces</span></div>
+      <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">⌚</div><span class="cat-name">Bracelets</span></div>
+      <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">💍</div><span class="cat-name">Rings</span></div>
+      <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">🙏</div><span class="cat-name">Mangalsutras</span></div>
+      <div class="cat-card" onclick="goTo('collection')"><div class="cat-img">👔</div><span class="cat-name">Mens</span></div>
+    </div>
+  </section>
+
+  <!-- TABBED PRODUCTS -->
+  <section class="tabbed">
+    <h2 class="section-title">Lumière Top Styles</h2>
+    <div class="tabs-nav">
+      <button class="tab-btn on" onclick="switchTab(this,'tab-all')">ALL</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-necklaces')">NECKLACES</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-bracelets')">BRACELETS</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-earrings')">EARRINGS</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-rings')">RINGS</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-mens')">MENS</button>
+      <button class="tab-btn" onclick="switchTab(this,'tab-mangalsutra')">MANGALSUTRA</button>
+    </div>
+
+    <div id="tab-all" class="tab-panel on">
+      <div class="prod-grid">
+        <!-- Card 1 -->
+        <div class="prod-card" onclick="goTo('product')">
+          <div class="prod-img-wrap"><div class="emoji-placeholder">💛</div><div class="prod-badges"><span class="flat-tag">Flat ₹999</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
+          <div class="prod-info"><div class="prod-name">Hearts All Over Bracelet</div><div class="prod-pricing"><span class="prod-price">₹999</span><span class="prod-compare">₹3,184</span><span class="prod-off">Flat 69% off MRP</span></div><div class="prod-colors"><span class="color-dot" style="background:#C8A951"></span><span class="color-dot" style="background:#C0C0C0"></span></div></div>
+        </div>
+        <!-- Card 2 -->
+        <div class="prod-card" onclick="goTo('product')">
+          <div class="prod-img-wrap"><div class="emoji-placeholder">💎</div><div class="prod-badges"><span class="flat-tag">Flat ₹999</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
+          <div class="prod-info"><div class="prod-name">Diamond Affair Bracelet</div><div class="prod-pricing"><span class="prod-price">₹999</span><span class="prod-compare">₹3,647</span><span class="prod-off">Flat 73% off MRP</span></div></div>
+        </div>
+        <!-- Card 3 -->
+        <div class="prod-card" onclick="goTo('product')">
+          <div class="prod-img-wrap"><div class="emoji-placeholder">✨</div><div class="prod-badges"><span class="flat-tag">Flat ₹1,111</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
+          <div class="prod-info"><div class="prod-name">Athena Solitaire Hoop Earrings</div><div class="prod-pricing"><span class="prod-price">₹1,111</span><span class="prod-compare">₹3,226</span><span class="prod-off">Flat 66% off MRP</span></div></div>
+        </div>
+        <!-- Card 4 -->
+        <div class="prod-card" onclick="goTo('product')">
+          <div class="prod-img-wrap"><div class="emoji-placeholder">🌟</div><div class="prod-badges"><span class="flat-tag">Flat ₹1,111</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
+          <div class="prod-info"><div class="prod-name">Round Solitaire Necklace</div><div class="prod-pricing"><span class="prod-price">₹1,111</span><span class="prod-compare">₹3,998</span><span class="prod-off">Flat 72% off MRP</span></div></div>
+        </div>
+        <!-- Card 5 -->
+        <div class="prod-card" onclick="goTo('product')">
+          <div class="prod-img-wrap"><div class="emoji-placeholder">💍</div><div class="prod-badges"><span class="flat-tag">Flat ₹1,500</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
+          <div class="prod-info"><div class="prod-name">Chevron Stacking Ring Set</div><div class="prod-pricing"><span class="prod-price">₹1,500</span><span class="prod-compare">₹4,200</span><span class="prod-off">Flat 64% off MRP</span></div><div class="prod-colors"><span class="color-dot" style="background:#C8A951"></span><span class="color-dot" style="background:#E8E0D0"></span><span class="color-dot" style="background:#C0C0C0"></span></div></div>
+        </div>
+        <!-- Card 6 -->
+        <div class="prod-card" onclick="goTo('product')">
+          <div class="prod-img-wrap"><div class="emoji-placeholder">👑</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
+          <div class="prod-info"><div class="prod-name">Pearl Drop Chandelier Earrings</div><div class="prod-pricing"><span class="prod-price">₹2,499</span><span class="prod-compare">₹6,200</span><span class="prod-off">Flat 60% off MRP</span></div></div>
+        </div>
+        <!-- Card 7 -->
+        <div class="prod-card" onclick="goTo('product')">
+          <div class="prod-img-wrap"><div class="emoji-placeholder">🔮</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
+          <div class="prod-info"><div class="prod-name">Celestial Bar Pendant Necklace</div><div class="prod-pricing"><span class="prod-price">₹1,799</span><span class="prod-compare">₹4,800</span><span class="prod-off">Flat 63% off MRP</span></div></div>
+        </div>
+        <!-- Card 8 -->
+        <div class="prod-card" onclick="goTo('product')">
+          <div class="prod-img-wrap"><div class="emoji-placeholder">🌸</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div>
+          <div class="prod-info"><div class="prod-name">Bloom Floral Mangalsutra</div><div class="prod-pricing"><span class="prod-price">₹2,199</span><span class="prod-compare">₹5,500</span><span class="prod-off">Flat 60% off MRP</span></div></div>
+        </div>
+      </div>
+      <div class="view-all"><button class="btn btn-outline" onclick="goTo('collection')">VIEW ALL</button></div>
+    </div>
+
+    <div id="tab-necklaces" class="tab-panel">
+      <div class="prod-grid">
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">📿</div><div class="prod-badges"><span class="flat-tag">Flat ₹1,111</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Round Solitaire Necklace</div><div class="prod-pricing"><span class="prod-price">₹1,111</span><span class="prod-compare">₹3,998</span><span class="prod-off">Flat 72% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">🌟</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Celestial Bar Pendant</div><div class="prod-pricing"><span class="prod-price">₹1,799</span><span class="prod-compare">₹4,800</span><span class="prod-off">Flat 63% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💛</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Gold Layered Coin Necklace</div><div class="prod-pricing"><span class="prod-price">₹2,299</span><span class="prod-compare">₹5,200</span><span class="prod-off">Flat 56% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">✨</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Diamond Solitaire Pendant</div><div class="prod-pricing"><span class="prod-price">₹3,499</span><span class="prod-compare">₹9,800</span><span class="prod-off">Flat 64% off MRP</span></div></div></div>
+      </div>
+      <div class="view-all"><button class="btn btn-outline" onclick="goTo('collection')">VIEW ALL NECKLACES</button></div>
+    </div>
+
+    <div id="tab-bracelets" class="tab-panel">
+      <div class="prod-grid">
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💛</div><div class="prod-badges"><span class="flat-tag">Flat ₹999</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Hearts All Over Bracelet</div><div class="prod-pricing"><span class="prod-price">₹999</span><span class="prod-compare">₹3,184</span><span class="prod-off">Flat 69% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💎</div><div class="prod-badges"><span class="flat-tag">Flat ₹999</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Diamond Affair Bracelet</div><div class="prod-pricing"><span class="prod-price">₹999</span><span class="prod-compare">₹3,647</span><span class="prod-off">Flat 73% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">⌚</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Chain Link Tennis Bracelet</div><div class="prod-pricing"><span class="prod-price">₹1,499</span><span class="prod-compare">₹3,800</span><span class="prod-off">Flat 61% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">🌺</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Platinum Bangle Set (2pc)</div><div class="prod-pricing"><span class="prod-price">₹2,799</span><span class="prod-compare">₹6,400</span><span class="prod-off">Flat 56% off MRP</span></div></div></div>
+      </div>
+      <div class="view-all"><button class="btn btn-outline" onclick="goTo('collection')">VIEW ALL BRACELETS</button></div>
+    </div>
+
+    <div id="tab-earrings" class="tab-panel">
+      <div class="prod-grid">
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">✨</div><div class="prod-badges"><span class="flat-tag">Flat ₹1,111</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Athena Solitaire Hoop Earrings</div><div class="prod-pricing"><span class="prod-price">₹1,111</span><span class="prod-compare">₹3,226</span><span class="prod-off">Flat 66% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">👑</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Pearl Drop Chandelier Earrings</div><div class="prod-pricing"><span class="prod-price">₹2,499</span><span class="prod-compare">₹6,200</span><span class="prod-off">Flat 60% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">🌸</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Floral Cluster Stud Earrings</div><div class="prod-pricing"><span class="prod-price">₹899</span><span class="prod-compare">₹2,400</span><span class="prod-off">Flat 63% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💫</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Star Burst Jhumka Earrings</div><div class="prod-pricing"><span class="prod-price">₹1,299</span><span class="prod-compare">₹3,500</span><span class="prod-off">Flat 63% off MRP</span></div></div></div>
+      </div>
+      <div class="view-all"><button class="btn btn-outline" onclick="goTo('collection')">VIEW ALL EARRINGS</button></div>
+    </div>
+
+    <div id="tab-rings" class="tab-panel">
+      <div class="prod-grid">
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💍</div><div class="prod-badges"><span class="flat-tag">Flat ₹1,500</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Chevron Stacking Ring Set</div><div class="prod-pricing"><span class="prod-price">₹1,500</span><span class="prod-compare">₹4,200</span><span class="prod-off">Flat 64% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">✨</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Orba Shine Diamond Ring</div><div class="prod-pricing"><span class="prod-price">₹7,494</span><span class="prod-compare">₹8,817</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">🔮</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Stellar Bloom Gold Ring</div><div class="prod-pricing"><span class="prod-price">₹6,310</span><span class="prod-compare">₹7,424</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💛</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Floral Whisper Gold Ring</div><div class="prod-pricing"><span class="prod-price">₹8,712</span><span class="prod-compare">₹10,249</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      </div>
+      <div class="view-all"><button class="btn btn-outline" onclick="goTo('collection')">VIEW ALL RINGS</button></div>
+    </div>
+
+    <div id="tab-mens" class="tab-panel">
+      <div class="prod-grid">
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">⛓️</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Cuban Link Chain Bracelet</div><div class="prod-pricing"><span class="prod-price">₹2,499</span><span class="prod-compare">₹5,800</span><span class="prod-off">Flat 57% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">🔗</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Signet Flat Band Ring</div><div class="prod-pricing"><span class="prod-price">₹1,799</span><span class="prod-compare">₹4,200</span><span class="prod-off">Flat 57% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💪</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Bold Cross Pendant Necklace</div><div class="prod-pricing"><span class="prod-price">₹1,299</span><span class="prod-compare">₹3,100</span><span class="prod-off">Flat 58% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">⚡</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Sleek Link Bracelet</div><div class="prod-pricing"><span class="prod-price">₹1,999</span><span class="prod-compare">₹4,800</span><span class="prod-off">Flat 58% off MRP</span></div></div></div>
+      </div>
+      <div class="view-all"><button class="btn btn-outline" onclick="goTo('collection')">VIEW ALL MENS</button></div>
+    </div>
+
+    <div id="tab-mangalsutra" class="tab-panel">
+      <div class="prod-grid">
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">🌸</div><div class="prod-badges"><span class="flat-tag">Best Seller</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Bloom Floral Mangalsutra</div><div class="prod-pricing"><span class="prod-price">₹2,199</span><span class="prod-compare">₹5,500</span><span class="prod-off">Flat 60% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">🖤</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Classic Black Bead Mangalsutra</div><div class="prod-pricing"><span class="prod-price">₹1,499</span><span class="prod-compare">₹3,800</span><span class="prod-off">Flat 61% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">✨</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Diamond Solitaire Mangalsutra</div><div class="prod-pricing"><span class="prod-price">₹4,999</span><span class="prod-compare">₹11,000</span><span class="prod-off">Flat 55% off MRP</span></div></div></div>
+        <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💛</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Dual Tone Modern Mangalsutra</div><div class="prod-pricing"><span class="prod-price">₹1,999</span><span class="prod-compare">₹4,600</span><span class="prod-off">Flat 57% off MRP</span></div></div></div>
+      </div>
+      <div class="view-all"><button class="btn btn-outline" onclick="goTo('collection')">VIEW ALL MANGALSUTRA</button></div>
+    </div>
+
+  </section>
+
+  <!-- SHOP BY RECIPIENT -->
+  <section class="recipient">
+    <h2 class="recipient-title">Shop By Recipient</h2>
+    <div class="recipient-grid">
+      <div class="rec-item" onclick="goTo('collection')">
+        <div class="rec-item-bg" style="background:linear-gradient(135deg,#F0E8E0,#D4C0A8);">💃</div>
+        <div class="rec-bottom"><div><p class="rec-label">Gifts For <strong>Her</strong></p></div><div class="rec-arrow">→</div></div>
+      </div>
+      <div class="rec-item" onclick="goTo('collection')">
+        <div class="rec-item-bg" style="background:linear-gradient(135deg,#2D2D2D,#1A1A1A);font-size:5rem;">🧔</div>
+        <div class="rec-bottom"><div><p class="rec-label">Gifts For <strong>Him</strong></p></div><div class="rec-arrow">→</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR EVERY YOU -->
+  <section class="occasions">
+    <h2 class="section-title" style="padding:0 24px 0;">For Every You</h2>
+    <div style="overflow:hidden;margin-top:28px;">
+      <div class="occ-track" id="occTrack">
+        <div class="occ-card" onclick="goTo('collection')">
+          <div class="occ-card-bg" style="background:linear-gradient(170deg,#E8D5C4,#C4A882);">💼</div>
+          <div class="occ-label"><span class="occ-label-text">Office Wear</span></div>
+        </div>
+        <div class="occ-card" onclick="goTo('collection')">
+          <div class="occ-card-bg" style="background:linear-gradient(170deg,#C8A951,#8B6914);">☀️</div>
+          <div class="occ-label"><span class="occ-label-text">Daily Wear</span></div>
+        </div>
+        <div class="occ-card" onclick="goTo('collection')">
+          <div class="occ-card-bg" style="background:linear-gradient(170deg,#5C4033,#2D1B10);">🎉</div>
+          <div class="occ-label"><span class="occ-label-text">Party Wear</span></div>
+        </div>
+        <div class="occ-card" onclick="goTo('collection')">
+          <div class="occ-card-bg" style="background:linear-gradient(170deg,#AD1457,#6A0F34);">💞</div>
+          <div class="occ-label"><span class="occ-label-text">Date Night</span></div>
+        </div>
+        <div class="occ-card" onclick="goTo('collection')">
+          <div class="occ-card-bg" style="background:linear-gradient(170deg,#1565C0,#0D3F7A);">🌴</div>
+          <div class="occ-label"><span class="occ-label-text">Vacay Mode</span></div>
+        </div>
+        <div class="occ-card" onclick="goTo('collection')">
+          <div class="occ-card-bg" style="background:linear-gradient(170deg,#6A1B9A,#3E0B5E);">👑</div>
+          <div class="occ-label"><span class="occ-label-text">Wedding Wear</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="occ-controls">
+      <button class="occ-btn" onclick="occSlide(-1)">&#8592;</button>
+      <button class="occ-btn" onclick="occSlide(1)">&#8594;</button>
+    </div>
+  </section>
+
+  <!-- TRUST BADGES -->
+  <section class="trust">
+    <h2 class="section-title">Shop With Confidence</h2>
+    <div class="trust-grid">
+      <div class="trust-item"><div class="trust-icon">🌿</div><h4 class="trust-title">Skin Safe</h4><p class="trust-desc">Hypoallergenic and skin-safe, crafted with care to ensure comfort for all skin types.</p></div>
+      <div class="trust-item"><div class="trust-icon">✨</div><h4 class="trust-title">18K Gold Vermeil</h4><p class="trust-desc">Thick 18k gold plating on premium metals for durability and lasting radiant shine.</p></div>
+      <div class="trust-item"><div class="trust-icon">💎</div><h4 class="trust-title">Authentic Diamonds</h4><p class="trust-desc">SGL Certified lab-grown diamonds with the highest standards of cut, clarity and brilliance.</p></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="reviews">
+    <h2 class="section-title">Trusted by Our Community</h2>
+    <p style="text-align:center;color:var(--muted);font-size:.86rem;margin-top:-20px;margin-bottom:8px;">8L+ Happy Customers</p>
+    <div class="review-grid">
+      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-product">Hearts All Over Bracelet</p><p class="review-text">"Absolutely beautiful jewellery! The quality is outstanding and arrived beautifully packaged. I get compliments every time I wear it."</p><p class="review-author">— Priya S., Mumbai</p></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-product">Round Solitaire Necklace</p><p class="review-text">"Bought for my wedding and received so many compliments. The craftsmanship is exceptional and the packaging was stunning."</p><p class="review-author">— Ananya R., Hyderabad</p></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-product">Chevron Ring Set</p><p class="review-text">"Fast delivery, genuine quality, and the customer service was wonderful. The rings are exactly as pictured. Will order again!"</p><p class="review-author">— Deepa N., Bangalore</p></div>
+    </div>
+    <div style="text-align:center;margin-top:36px;"><button class="btn btn-outline">View All Reviews</button></div>
+  </section>
+
+  <!-- BRAND BANNER -->
+  <div class="brand-banner">
+    <div class="brand-banner-bg" style="background:linear-gradient(135deg,#0D3B4E,#1A1A1A);font-size:0;">
+    </div>
+    <div class="brand-banner-overlay">
+      <p class="brand-eyebrow">Our Story</p>
+      <h2 class="brand-title">Because You<br>Deserve To Shine</h2>
+      <button class="btn btn-white" style="margin-top:28px;">About Lumière</button>
+    </div>
+  </div>
+
+  <!-- BLOG STRIP -->
+  <section class="blogs">
+    <h2 class="section-title">From Our Journal</h2>
+    <div class="blog-grid">
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#F0E8E0,#D4B5A0);">📖</div><div class="blog-info"><div class="blog-date">Jun 12, 2024</div><h4 class="blog-title">How to Style Mangalsutra with Modern Outfits</h4></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#E8F0E0,#B5D4A0);">💡</div><div class="blog-info"><div class="blog-date">May 28, 2024</div><h4 class="blog-title">The Complete Guide to Jewellery Care at Home</h4></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#F0E0E8,#D4A0B5);">👑</div><div class="blog-info"><div class="blog-date">May 15, 2024</div><h4 class="blog-title">Bridal Jewellery Trends You'll Love in 2024</h4></div></div>
+      <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#E0E8F0,#A0B5D4);">🎁</div><div class="blog-info"><div class="blog-date">Apr 30, 2024</div><h4 class="blog-title">Best Jewellery Gifts for Every Budget</h4></div></div>
+    </div>
+    <div style="text-align:center;margin-top:32px;"><button class="btn btn-outline">View All Blogs</button></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <div class="f-logo">LUMIÈRE</div>
+        <p class="f-desc">Handcrafted jewellery for every occasion. Bringing elegance and tradition together since 2020.</p>
+        <div class="f-social">
+          <div class="f-soc-link">📸</div>
+          <div class="f-soc-link">👍</div>
+          <div class="f-soc-link">▶️</div>
+          <div class="f-soc-link">💬</div>
+        </div>
+        <div class="f-app">
+          <p class="f-app-label">Download the App</p>
+          <div class="f-app-btns">
+            <div class="f-app-btn">▶ Google Play</div>
+            <div class="f-app-btn">🍎 App Store</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="f-col-title">Shop</p>
+        <div class="f-links"><a onclick="goTo('collection')">Rings</a><a onclick="goTo('collection')">Necklaces</a><a onclick="goTo('collection')">Earrings</a><a onclick="goTo('collection')">Bracelets</a><a onclick="goTo('collection')">Mangalsutra</a><a onclick="goTo('collection')">Mens</a><a onclick="goTo('collection')">New Arrivals</a><a onclick="goTo('collection')">Best Sellers</a></div>
+      </div>
+      <div>
+        <p class="f-col-title">Help</p>
+        <div class="f-links"><a>Contact Us</a><a>Shipping Policy</a><a>Return & Exchange</a><a>Jewellery Care</a><a>Privacy Policy</a><a>Terms of Service</a><a>Track My Order</a></div>
+      </div>
+      <div>
+        <p class="f-col-title">Company</p>
+        <div class="f-links"><a>About Us</a><a>Blog</a><a>Our Stores</a><a>Careers</a><a>Corporate Gifting</a></div>
+        <p class="f-col-title" style="margin-top:24px;">Contact</p>
+        <div class="f-links"><a>📞 +91 98765 43210</a><a>✉️ hello@lumiere.in</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="f-copy">© 2024 LUMIÈRE. All Rights Reserved.</p>
+      <div class="f-pays">
+        <span class="f-pay">UPI</span><span class="f-pay">VISA</span><span class="f-pay">MC</span><span class="f-pay">PayPal</span><span class="f-pay">COD</span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- end page-home -->
+
+
+<!-- ============================================
+     PAGE: PRODUCT
+     ============================================ -->
+<div id="page-product" class="page">
+  <div class="prod-page">
+
+    <!-- Gallery -->
+    <div class="gallery">
+      <div class="gallery-main" id="mainImg"><div style="font-size:8rem;display:flex;align-items:center;justify-content:center;width:100%;height:100%;">💛</div></div>
+      <div class="gallery-thumbs">
+        <div class="g-thumb on" onclick="switchThumb(this,'💛')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#F5F1E8;">💛</div></div>
+        <div class="g-thumb" onclick="switchThumb(this,'💎')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#F0EDE6;">💎</div></div>
+        <div class="g-thumb" onclick="switchThumb(this,'✨')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#EDE8E0;">✨</div></div>
+        <div class="g-thumb" onclick="switchThumb(this,'🌟')"><div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.5rem;background:#F2EEE6;">🌟</div></div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div>
+      <p class="p-breadcrumb"><a onclick="goTo('home')">Home</a> / <a onclick="goTo('collection')">Bracelets</a> / Hearts All Over Bracelet</p>
+      <p class="p-cat">Bracelets</p>
+      <h1 class="p-title">Hearts All Over Bracelet</h1>
+      <div class="p-ratings">
+        <span class="p-stars">★★★★★</span>
+        <span class="p-rating-text">4.9 (3,241 reviews)</span>
+      </div>
+      <div class="p-pricing">
+        <span class="p-price">₹999</span>
+        <span class="p-compare">₹3,184</span>
+        <span class="p-saving">Flat ₹2,185 off</span>
+      </div>
+      <p class="p-mrp">MRP incl. of all taxes. Flat 15% off MRP · <span style="color:var(--green);font-weight:600;">Free shipping</span> on this order</p>
+      <p class="p-desc">Delicate heart-shaped links crafted in 18K gold vermeil over premium 925 sterling silver. The hypoallergenic finish ensures safe wear for all skin types. Perfect for daily wear or gifting — comes in a beautiful keepsake box.</p>
+
+      <!-- Metal Variant -->
+      <div class="p-variants">
+        <p class="v-label">Metal: <span style="font-weight:400;text-transform:none;letter-spacing:0;">18K Gold Vermeil</span></p>
+        <div class="v-options">
+          <span class="v-opt on" onclick="selectVariant(this)">18K Gold Vermeil</span>
+          <span class="v-opt" onclick="selectVariant(this)">Platinum Plated</span>
+          <span class="v-opt" onclick="selectVariant(this)">Rose Gold</span>
+        </div>
+      </div>
+
+      <!-- Size Variant -->
+      <div class="p-variants">
+        <p class="v-label">Size</p>
+        <div class="v-options">
+          <span class="v-opt on" onclick="selectVariant(this)">S (16 cm)</span>
+          <span class="v-opt" onclick="selectVariant(this)">M (18 cm)</span>
+          <span class="v-opt" onclick="selectVariant(this)">L (20 cm)</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="p-actions">
+        <div class="qty">
+          <button class="qty-btn" onclick="qtyChange(-1)">−</button>
+          <input type="number" class="qty-inp" id="prodQty" value="1" min="1">
+          <button class="qty-btn" onclick="qtyChange(1)">+</button>
+        </div>
+        <button class="btn btn-black" style="flex:1;font-size:.85rem;" onclick="addToCart()">Add to Bag</button>
+      </div>
+
+      <div class="p-perks">
+        <div class="p-perk">🚚 Free shipping</div>
+        <div class="p-perk">🔄 7-day returns</div>
+        <div class="p-perk">💎 100% genuine</div>
+        <div class="p-perk">🛡️ Skin safe</div>
+        <div class="p-perk">📦 Gift packaging</div>
+      </div>
+
+      <!-- Product details accordion-style -->
+      <div style="border-top:1px solid var(--border);padding-top:20px;">
+        <details style="border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:12px;">
+          <summary style="font-size:.82rem;font-weight:600;cursor:pointer;padding:4px 0;letter-spacing:.04em;">PRODUCT DETAILS</summary>
+          <ul style="margin-top:10px;padding-left:16px;font-size:.8rem;color:var(--muted);line-height:1.9;list-style:disc;">
+            <li>Material: 925 Sterling Silver with 18K Gold Vermeil</li>
+            <li>Finish: Hypoallergenic, Skin-Safe</li>
+            <li>Closure: Lobster Clasp</li>
+            <li>Width: 3mm</li>
+            <li>Available in 3 sizes</li>
+          </ul>
+        </details>
+        <details style="border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:12px;">
+          <summary style="font-size:.82rem;font-weight:600;cursor:pointer;padding:4px 0;letter-spacing:.04em;">SHIPPING & RETURNS</summary>
+          <p style="margin-top:10px;font-size:.8rem;color:var(--muted);line-height:1.9;">Free shipping on orders above ₹999. Standard delivery in 3–5 business days. Easy 7-day returns for unworn items in original packaging.</p>
+        </details>
+        <details style="padding-bottom:12px;">
+          <summary style="font-size:.82rem;font-weight:600;cursor:pointer;padding:4px 0;letter-spacing:.04em;">JEWELLERY CARE</summary>
+          <p style="margin-top:10px;font-size:.8rem;color:var(--muted);line-height:1.9;">Store in a cool, dry place. Avoid contact with perfumes, lotions, and water. Clean gently with a soft cloth. Remove before swimming or exercising.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- You May Also Like -->
+  <div style="padding:48px 24px;background:var(--bg);">
+    <h2 class="section-title">You May Also Like</h2>
+    <div class="prod-grid" style="max-width:1200px;margin:0 auto;">
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">💎</div><div class="prod-badges"><span class="flat-tag">Flat ₹999</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Diamond Affair Bracelet</div><div class="prod-pricing"><span class="prod-price">₹999</span><span class="prod-compare">₹3,647</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">⌚</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Chain Link Tennis Bracelet</div><div class="prod-pricing"><span class="prod-price">₹1,499</span><span class="prod-compare">₹3,800</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">✨</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Athena Solitaire Hoops</div><div class="prod-pricing"><span class="prod-price">₹1,111</span><span class="prod-compare">₹3,226</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder">📿</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Round Solitaire Necklace</div><div class="prod-pricing"><span class="prod-price">₹1,111</span><span class="prod-compare">₹3,998</span></div></div></div>
+    </div>
+  </div>
+</div><!-- end page-product -->
+
+
+<!-- ============================================
+     PAGE: COLLECTION
+     ============================================ -->
+<div id="page-collection" class="page">
+  <div class="coll-page">
+    <div class="coll-header">
+      <h1 style="font-family:var(--font-d);font-size:clamp(1.4rem,3vw,2rem);font-weight:600;">9KT Fine Gold</h1>
+      <p style="color:var(--muted);font-size:.88rem;margin-top:8px;max-width:560px;margin-inline:auto;">SGL Certified lab-grown diamonds in 9KT solid gold. Starting from ₹6,310.</p>
+      <p class="coll-count">24 products</p>
+    </div>
+
+    <div class="coll-filters">
+      <button class="filter-chip on">All</button>
+      <button class="filter-chip" onclick="filterClick(this)">Under ₹999</button>
+      <button class="filter-chip" onclick="filterClick(this)">₹999 – ₹2,999</button>
+      <button class="filter-chip" onclick="filterClick(this)">₹2,999 – ₹9,999</button>
+      <button class="filter-chip" onclick="filterClick(this)">Above ₹9,999</button>
+      <button class="filter-chip" onclick="filterClick(this)">New Arrivals</button>
+      <button class="filter-chip" onclick="filterClick(this)">Best Sellers</button>
+    </div>
+
+    <div class="prod-grid">
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">💍</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Crystal Peak 9KT Gold Lab Diamond Stud Earring</div><div class="prod-pricing"><span class="prod-price">₹7,494</span><span class="prod-compare">₹8,817</span><span class="prod-off">Flat 15% off MRP</span></div><div class="prod-colors"><span class="color-dot" style="background:#C8A951"></span><span class="color-dot" style="background:#E8C8B0"></span><span class="color-dot" style="background:#C0C0C0"></span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">💛</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Orba Shine 9KT Gold Lab Diamond Bracelet</div><div class="prod-pricing"><span class="prod-price">₹9,572</span><span class="prod-compare">₹11,261</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">✨</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Stellar Bloom 9KT Gold Lab Diamond Necklace</div><div class="prod-pricing"><span class="prod-price">₹6,310</span><span class="prod-compare">₹7,424</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">🌟</div><div class="prod-badges"><span class="flat-tag">Flat 15% off MRP</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Floral Whisper 9KT Gold Lab Diamond Ring</div><div class="prod-pricing"><span class="prod-price">₹8,712</span><span class="prod-compare">₹10,249</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">💎</div><div class="prod-badges"><span class="flat-tag">New</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Celestial Dot 9KT Gold Lab Diamond Pendant</div><div class="prod-pricing"><span class="prod-price">₹7,200</span><span class="prod-compare">₹8,470</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">🔮</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Starcore Gold Lab Diamond Ring</div><div class="prod-pricing"><span class="prod-price">₹9,100</span><span class="prod-compare">₹10,706</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">⭐</div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Axis Dot 9KT Gold Lab Diamond Earrings</div><div class="prod-pricing"><span class="prod-price">₹6,800</span><span class="prod-compare">₹8,000</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+      <div class="prod-card" onclick="goTo('product')"><div class="prod-img-wrap"><div class="emoji-placeholder" style="background:linear-gradient(135deg,#F5F1E0,#E8DDB8);">🌺</div><div class="prod-badges"><span class="flat-tag">Best Seller</span></div><button class="wish-btn" onclick="wishToggle(event,this)">♡</button><div class="add-btn">ADD TO BAG</div></div><div class="prod-info"><div class="prod-name">Bloom Cluster 9KT Gold Diamond Bracelet</div><div class="prod-pricing"><span class="prod-price">₹11,200</span><span class="prod-compare">₹13,176</span><span class="prod-off">Flat 15% off MRP</span></div></div></div>
+    </div>
+
+    <div style="text-align:center;margin-top:48px;display:flex;justify-content:center;gap:8px;">
+      <button class="btn btn-outline">← Previous</button>
+      <button class="btn btn-black" style="min-width:44px;">1</button>
+      <button class="btn btn-outline" style="min-width:44px;">2</button>
+      <button class="btn btn-outline" style="min-width:44px;">3</button>
+      <button class="btn btn-outline">Next →</button>
+    </div>
+  </div>
+</div><!-- end page-collection -->
+
+
+<!-- ============================================
+     PAGE: CART
+     ============================================ -->
+<div id="page-cart" class="page">
+  <div class="cart-page">
+    <h1 class="cart-title">Your Cart (3 items)</h1>
+
+    <div class="cart-items">
+      <div class="cart-item">
+        <div class="cart-img" style="font-size:2.5rem;">💛</div>
+        <div>
+          <div class="cart-item-name">Hearts All Over Bracelet</div>
+          <div class="cart-item-var">18K Gold Vermeil · M (18cm)</div>
+          <div class="qty" style="width:fit-content;margin-top:8px;">
+            <button class="qty-btn" onclick="cartQty(this,-1)">−</button>
+            <input type="number" class="qty-inp" value="1" min="1">
+            <button class="qty-btn" onclick="cartQty(this,1)">+</button>
+          </div>
+        </div>
+        <div>
+          <div class="cart-item-price">₹999</div>
+          <span class="cart-item-remove" onclick="removeItem(this)">Remove</span>
+        </div>
+      </div>
+
+      <div class="cart-item">
+        <div class="cart-img" style="font-size:2.5rem;">✨</div>
+        <div>
+          <div class="cart-item-name">Athena Solitaire Hoop Earrings</div>
+          <div class="cart-item-var">18K Gold Vermeil</div>
+          <div class="qty" style="width:fit-content;margin-top:8px;">
+            <button class="qty-btn" onclick="cartQty(this,-1)">−</button>
+            <input type="number" class="qty-inp" value="1" min="1">
+            <button class="qty-btn" onclick="cartQty(this,1)">+</button>
+          </div>
+        </div>
+        <div>
+          <div class="cart-item-price">₹1,111</div>
+          <span class="cart-item-remove" onclick="removeItem(this)">Remove</span>
+        </div>
+      </div>
+
+      <div class="cart-item">
+        <div class="cart-img" style="font-size:2.5rem;">💍</div>
+        <div>
+          <div class="cart-item-name">Chevron Stacking Ring Set</div>
+          <div class="cart-item-var">18K Gold Vermeil · Size 12</div>
+          <div class="qty" style="width:fit-content;margin-top:8px;">
+            <button class="qty-btn" onclick="cartQty(this,-1)">−</button>
+            <input type="number" class="qty-inp" value="1" min="1">
+            <button class="qty-btn" onclick="cartQty(this,1)">+</button>
+          </div>
+        </div>
+        <div>
+          <div class="cart-item-price">₹1,500</div>
+          <span class="cart-item-remove" onclick="removeItem(this)">Remove</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coupon -->
+    <div style="margin-top:20px;display:flex;gap:8px;">
+      <input type="text" placeholder="Enter coupon code" style="flex:1;border:1.5px solid var(--border);padding:10px 16px;font-family:var(--font-b);font-size:.84rem;outline:none;border-radius:0;" onfocus="this.style.borderColor='var(--black)'" onblur="this.style.borderColor='var(--border)'">
+      <button class="btn btn-outline" style="border-radius:0;">Apply</button>
+    </div>
+
+    <div class="cart-summary">
+      <div class="cart-row"><span>Subtotal (3 items)</span><span>₹3,610</span></div>
+      <div class="cart-row"><span>Discount (B1G1 applied)</span><span style="color:var(--green);">−₹999</span></div>
+      <div class="cart-row"><span>Shipping</span><span style="color:var(--green);font-weight:600;">FREE 🎉</span></div>
+      <div class="cart-total"><span>Total</span><span>₹2,611</span></div>
+      <button class="btn btn-black" style="width:100%;padding:16px;font-size:.88rem;letter-spacing:.08em;" onclick="alert('Redirecting to secure checkout...')">🔒 PROCEED TO CHECKOUT</button>
+      <button class="btn btn-outline" style="width:100%;margin-top:10px;padding:14px;" onclick="goTo('home')">Continue Shopping</button>
+      <p class="cart-notice">🔒 Secure checkout · Free shipping · Easy 7-day returns</p>
+    </div>
+  </div>
+</div><!-- end page-cart -->
+
+
+<!-- ============================================
+     JAVASCRIPT
+     ============================================ -->
+<script>
+// ---- PAGE ROUTING ----
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---- HERO SLIDER ----
+let heroIdx = 0;
+const heroTrack = document.getElementById('heroTrack');
+const heroDots = document.querySelectorAll('.hero-dot');
+const heroSlides = heroTrack ? heroTrack.querySelectorAll('.hero-slide') : [];
+let heroAuto;
+
+function heroGo(i) {
+  heroIdx = (i + heroSlides.length) % heroSlides.length;
+  heroTrack.style.transform = `translateX(-${heroIdx * 100}%)`;
+  heroDots.forEach((d, n) => d.classList.toggle('on', n === heroIdx));
+}
+function heroSlide(dir) {
+  clearInterval(heroAuto);
+  heroGo(heroIdx + dir);
+  heroAuto = setInterval(() => heroGo(heroIdx + 1), 4500);
+}
+if (heroSlides.length > 1) {
+  heroAuto = setInterval(() => heroGo(heroIdx + 1), 4500);
+}
+
+// ---- OCCASION SLIDER ----
+let occIdx = 0;
+function occSlide(dir) {
+  const track = document.getElementById('occTrack');
+  const cards = track.querySelectorAll('.occ-card');
+  const cardW = cards[0] ? cards[0].offsetWidth + 18 : 278;
+  const visible = Math.floor(track.parentElement.offsetWidth / cardW);
+  occIdx = Math.max(0, Math.min(occIdx + dir, cards.length - visible));
+  track.style.transform = `translateX(-${occIdx * cardW}px)`;
+}
+
+// ---- TABS ----
+function switchTab(btn, panelId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById(panelId).classList.add('on');
+}
+
+// ---- GALLERY THUMBS ----
+function switchThumb(thumb, emoji) {
+  document.querySelectorAll('.g-thumb').forEach(t => t.classList.remove('on'));
+  thumb.classList.add('on');
+  const main = document.getElementById('mainImg');
+  main.innerHTML = `<div style="font-size:8rem;display:flex;align-items:center;justify-content:center;width:100%;height:100%;">${emoji}</div>`;
+}
+
+// ---- VARIANT SELECT ----
+function selectVariant(el) {
+  const group = el.closest('.v-options');
+  group.querySelectorAll('.v-opt').forEach(v => v.classList.remove('on'));
+  el.classList.add('on');
+}
+
+// ---- QUANTITY ----
+function qtyChange(dir) {
+  const inp = document.getElementById('prodQty');
+  inp.value = Math.max(1, parseInt(inp.value) + dir);
+}
+function cartQty(btn, dir) {
+  const inp = btn.parentElement.querySelector('.qty-inp');
+  inp.value = Math.max(1, parseInt(inp.value) + dir);
+}
+
+// ---- WISHLIST ----
+function wishToggle(e, btn) {
+  e.stopPropagation();
+  const on = btn.dataset.active === 'true';
+  btn.dataset.active = !on;
+  btn.textContent = on ? '♡' : '♥';
+  btn.style.color = on ? '' : '#D94F3D';
+  btn.classList.toggle('active', !on);
+}
+
+// ---- FILTER CHIPS ----
+function filterClick(chip) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('on'));
+  chip.classList.add('on');
+}
+
+// ---- REMOVE CART ITEM ----
+function removeItem(btn) {
+  btn.closest('.cart-item').style.opacity = '0';
+  btn.closest('.cart-item').style.transition = 'opacity .3s';
+  setTimeout(() => btn.closest('.cart-item').remove(), 300);
+}
+
+// ---- ADD TO CART ----
+function addToCart() {
+  const btn = event.currentTarget;
+  btn.textContent = '✓ Added to Bag!';
+  btn.style.background = '#2E7D32';
+  setTimeout(() => {
+    btn.textContent = 'Add to Bag';
+    btn.style.background = '';
+  }, 2000);
+}
+
+// ---- STICKY HEADER SHADOW ----
+window.addEventListener('scroll', () => {
+  const h = document.querySelector('.site-header');
+  if (h) h.style.boxShadow = window.scrollY > 8 ? '0 2px 14px rgba(0,0,0,.09)' : 'none';
+});
+</script>
+</body>
+</html>
