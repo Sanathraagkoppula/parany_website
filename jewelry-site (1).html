@@ -186,19 +186,159 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
 .rec-arrow { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--black); display: flex; align-items: center; justify-content: center; font-size: .95rem; transition: all var(--ease); }
 .rec-item:hover .rec-arrow { background: var(--black); color: var(--white); }
 
-/* === FOR EVERY YOU === */
-.occasions { padding: 48px 0; background: var(--white); overflow: hidden; }
-.occ-viewport { overflow: hidden; }
-.occ-track { display: flex; gap: 18px; padding: 0 24px; transition: transform .45s cubic-bezier(.4,0,.2,1); }
-.occ-card { flex: 0 0 260px; border-radius: var(--r-card); overflow: hidden; position: relative; cursor: pointer; }
-.occ-card-bg { aspect-ratio: .72; display: flex; align-items: flex-end; justify-content: center; font-size: 5rem; }
-.occ-card img { width: 100%; aspect-ratio: .72; object-fit: cover; display: block; transition: transform .5s ease; }
-.occ-card:hover img { transform: scale(1.04); }
-.occ-label { position: absolute; bottom: 0; left: 0; right: 0; background: var(--white); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
-.occ-label-text { font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--black); border-bottom: 1.5px solid var(--black); padding-bottom: 2px; }
-.occ-controls { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
-.occ-btn { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--black); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--ease); font-size: .9rem; }
-.occ-btn:hover { background: var(--black); color: var(--white); }
+/* === FOR EVERY YOU — FLIP BOOK === */
+.occasions { padding: 56px 0 64px; background: linear-gradient(180deg,#FBFAF7,#F4F1EA); overflow: hidden; }
+
+.book-scene {
+  perspective: 2600px;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 560px; margin-top: 26px; position: relative;
+}
+.book-scene::after { /* soft table shadow under the book */
+  content: ""; position: absolute; bottom: 46px; left: 50%; transform: translateX(-50%);
+  width: 420px; height: 40px; border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,.22), transparent 70%);
+  filter: blur(6px); z-index: 0; transition: width .6s ease;
+}
+.book-scene.is-open::after { width: 640px; }
+
+.book-stage { position: relative; flex: 0 0 auto; width: 720px; height: 480px; transform-style: preserve-3d; z-index: 1; }
+
+.book {
+  position: absolute; top: 0; left: 360px; width: 360px; height: 480px;
+  transform-style: preserve-3d;
+  transform: translateX(-180px);           /* closed → cover centered */
+  transition: transform .7s cubic-bezier(.4,0,.2,1);
+}
+.book.open { transform: translateX(0); }    /* open → spine centered */
+
+/* base pages sitting under the flipping leaves */
+.book-base { position: absolute; top: 0; height: 100%; width: 360px; border-radius: 3px 10px 10px 3px; overflow: hidden; }
+.book-base.right { left: 0; z-index: 1; box-shadow: inset 14px 0 22px -14px rgba(0,0,0,.18); }
+.book-base.left  { right: 100%; z-index: 1; border-radius: 10px 3px 3px 10px; box-shadow: inset -14px 0 22px -14px rgba(0,0,0,.18); opacity: 0; transition: opacity .35s ease .25s; }
+.book.open .book-base.left { opacity: 1; }
+
+/* each turnable leaf */
+.leaf {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  transform-origin: left center; transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(.55,.05,.25,1);
+}
+.leaf.flipped { transform: rotateY(-180deg); }
+
+.face {
+  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  overflow: hidden; border-radius: 3px 10px 10px 3px;
+  display: flex; flex-direction: column;
+}
+.face.back { transform: rotateY(180deg); border-radius: 10px 3px 3px 10px; }
+
+/* ---- BOOK COVER ---- */
+.pg-cover {
+  height: 100%; padding: 22px;
+  background:
+    radial-gradient(120% 120% at 30% 0%, #333 0%, #1c1c1c 55%, #0e0e0e 100%);
+  position: relative;
+}
+.pg-cover::before { /* spine strip */
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 22px;
+  background: linear-gradient(90deg,#0a0a0a,#2a2a2a 60%,rgba(255,255,255,.05));
+  box-shadow: inset -2px 0 4px rgba(0,0,0,.5);
+}
+.pg-cover-frame {
+  height: 100%; border: 1px solid rgba(200,169,81,.55);
+  outline: 4px solid transparent; outline-offset: 6px;
+  box-shadow: 0 0 0 1px rgba(200,169,81,.28) inset;
+  border-radius: 4px; padding: 34px 26px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  position: relative;
+}
+.pg-cover::after { /* page-stack edge (only while closed) */
+  content: ""; position: absolute; top: 8px; bottom: 8px; right: -7px; width: 7px;
+  border-radius: 0 3px 3px 0;
+  background: repeating-linear-gradient(180deg,#f3ecdd,#f3ecdd 2px,#d9d0bd 2px,#d9d0bd 4px);
+  box-shadow: 3px 0 6px rgba(0,0,0,.22); opacity: 0; transition: opacity .3s;
+}
+.book:not(.open) .pg-cover::after { opacity: 1; }
+.pg-cover-eyebrow { font-size: .6rem; letter-spacing: .34em; text-transform: uppercase; color: var(--gold); margin-bottom: 22px; }
+.pg-cover-title {
+  font-family: var(--font-d); font-weight: 700; font-size: 2.15rem; line-height: 1.12;
+  background: linear-gradient(180deg,#F4E4B8,#C8A951 55%,#8B6914);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+}
+.pg-cover-div { color: var(--gold); font-size: 1rem; margin: 20px 0 14px; letter-spacing: .5em; opacity: .85; }
+.pg-cover-sub { font-size: .74rem; color: rgba(255,255,255,.62); line-height: 1.7; max-width: 210px; }
+.pg-cover-hint {
+  margin-top: 30px; font-size: .66rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(200,169,81,.5); border-radius: var(--r-pill);
+  padding: 8px 18px; animation: coverPulse 2.4s ease-in-out infinite;
+}
+@keyframes coverPulse { 0%,100%{ opacity:.55; transform: translateY(0);} 50%{ opacity:1; transform: translateY(-3px);} }
+
+/* ---- PAPER PAGES ---- */
+.pg-paper {
+  height: 100%; padding: 34px 30px;
+  background:
+    repeating-linear-gradient(180deg, transparent, transparent 33px, rgba(180,150,90,.05) 34px),
+    linear-gradient(180deg,#FDFBF6,#F6F0E4);
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.face.front .pg-paper { box-shadow: inset 18px 0 26px -18px rgba(120,90,40,.28); }   /* shading near spine (right page) */
+.face.back  .pg-paper { box-shadow: inset -18px 0 26px -18px rgba(120,90,40,.28); }  /* shading near spine (left page) */
+.pg-num { position: absolute; top: 20px; right: 24px; font-family: var(--font-d); font-size: .78rem; color: var(--gold-dark); letter-spacing: .1em; }
+.face.back .pg-num { right: auto; left: 24px; }
+
+/* intro page */
+.pg-intro { justify-content: center; align-items: center; text-align: center; gap: 14px; }
+.pg-intro h3 { font-family: var(--font-d); font-size: 1.7rem; color: var(--black); font-weight: 600; line-height: 1.2; }
+.pg-intro .ornament { color: var(--gold); letter-spacing: .5em; font-size: .9rem; }
+.pg-intro p { font-size: .8rem; color: var(--muted); line-height: 1.85; max-width: 220px; }
+.pg-intro .turn-cue { margin-top: 8px; font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-dark); }
+
+/* collection page */
+.pg-collection { flex: 1; display: flex; flex-direction: column; text-align: left; }
+.pg-thumb {
+  border-radius: var(--r-card); aspect-ratio: 1.35/1; width: 100%;
+  display: flex; align-items: center; justify-content: center; font-size: 3.6rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,.16); margin-bottom: 20px; margin-top: 6px;
+}
+.pg-coll-name { font-family: var(--font-d); font-size: 1.32rem; font-weight: 600; color: var(--black); margin-bottom: 8px; }
+.pg-coll-copy { font-size: .82rem; color: var(--muted); line-height: 1.78; margin-bottom: auto; }
+.pg-explore {
+  align-self: flex-start; margin-top: 20px;
+  font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--black);
+  border: 1.5px solid var(--black); border-radius: var(--r-pill); padding: 9px 20px;
+  transition: all var(--ease); cursor: pointer; background: transparent;
+}
+.pg-explore:hover { background: var(--black); color: var(--white); }
+.pg-turn-hint { position: absolute; bottom: 18px; right: 22px; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-dark); opacity: .7; }
+.face.back .pg-turn-hint { right: auto; left: 22px; }
+
+/* end page */
+.pg-end { justify-content: center; align-items: center; text-align: center; gap: 16px; }
+.pg-end .ornament { color: var(--gold); font-size: 1.1rem; letter-spacing: .5em; }
+.pg-end h3 { font-family: var(--font-d); font-size: 1.5rem; color: var(--black); font-weight: 600; }
+.pg-end p { font-size: .8rem; color: var(--muted); line-height: 1.8; max-width: 210px; }
+.pg-end .btn { margin-top: 6px; padding: 11px 26px; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; }
+
+/* back-cover base (left) */
+.pg-endpaper { height: 100%; background: radial-gradient(120% 120% at 70% 0%, #2a2a2a, #101010); }
+
+/* ---- CONTROLS ---- */
+.book-controls { display: flex; gap: 12px; justify-content: center; align-items: center; margin-top: 8px; }
+.book-btn { width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid var(--black); background: var(--white); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--ease); font-size: 1rem; color: var(--black); }
+.book-btn:hover:not(:disabled) { background: var(--black); color: var(--white); }
+.book-btn:disabled { opacity: .3; cursor: not-allowed; }
+.book-progress { font-size: .72rem; letter-spacing: .14em; color: var(--muted); min-width: 76px; text-align: center; text-transform: uppercase; }
+.book-close { position: absolute; top: 4px; right: 50%; transform: translateX(360px); width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--white); font-size: .95rem; color: var(--muted); display: none; align-items: center; justify-content: center; z-index: 40; transition: all var(--ease); }
+.book-scene.is-open .book-close { display: flex; }
+.book-close:hover { border-color: var(--black); color: var(--black); }
+
+@media (max-width: 860px) { .book-scene { min-height: 500px; } .book-stage { transform: scale(.8); } .book-close { transform: translateX(288px); } }
+@media (max-width: 620px) { .book-scene { min-height: 420px; } .book-stage { transform: scale(.62); } .book-close { transform: translateX(224px); } }
+@media (max-width: 420px) { .book-scene { min-height: 380px; } .book-stage { transform: scale(.5); } .book-close { transform: translateX(180px); } }
 
 /* === TRUST BADGES === */
 .trust { padding: 64px 24px; background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -348,7 +488,6 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
   .hero-overlay { padding: 0 20px; align-items: flex-end; padding-bottom: 36px; }
   .prod-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
   .recipient-grid { grid-template-columns: 1fr; }
-  .occ-card { flex: 0 0 200px; }
   .trust-grid { grid-template-columns: 1fr; gap: 28px; }
   .review-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: repeat(2,1fr); }
@@ -670,40 +809,132 @@ button { cursor: pointer; font-family: var(--font-b); border: none; background: 
     </div>
   </section>
 
-  <!-- FOR EVERY YOU -->
+  <!-- FOR EVERY YOU — FLIP BOOK -->
   <section class="occasions">
     <h2 class="section-title" style="padding:0 24px 0;">For Every You</h2>
-    <div style="overflow:hidden;margin-top:28px;">
-      <div class="occ-track" id="occTrack">
-        <div class="occ-card" onclick="goTo('collection')">
-          <div class="occ-card-bg" style="background:linear-gradient(170deg,#E8D5C4,#C4A882);">💼</div>
-          <div class="occ-label"><span class="occ-label-text">Office Wear</span></div>
-        </div>
-        <div class="occ-card" onclick="goTo('collection')">
-          <div class="occ-card-bg" style="background:linear-gradient(170deg,#C8A951,#8B6914);">☀️</div>
-          <div class="occ-label"><span class="occ-label-text">Daily Wear</span></div>
-        </div>
-        <div class="occ-card" onclick="goTo('collection')">
-          <div class="occ-card-bg" style="background:linear-gradient(170deg,#5C4033,#2D1B10);">🎉</div>
-          <div class="occ-label"><span class="occ-label-text">Party Wear</span></div>
-        </div>
-        <div class="occ-card" onclick="goTo('collection')">
-          <div class="occ-card-bg" style="background:linear-gradient(170deg,#AD1457,#6A0F34);">💞</div>
-          <div class="occ-label"><span class="occ-label-text">Date Night</span></div>
-        </div>
-        <div class="occ-card" onclick="goTo('collection')">
-          <div class="occ-card-bg" style="background:linear-gradient(170deg,#1565C0,#0D3F7A);">🌴</div>
-          <div class="occ-label"><span class="occ-label-text">Vacay Mode</span></div>
-        </div>
-        <div class="occ-card" onclick="goTo('collection')">
-          <div class="occ-card-bg" style="background:linear-gradient(170deg,#6A1B9A,#3E0B5E);">👑</div>
-          <div class="occ-label"><span class="occ-label-text">Wedding Wear</span></div>
+
+    <div class="book-scene" id="bookScene">
+      <button class="book-close" onclick="bookClose()" aria-label="Close book">&times;</button>
+
+      <div class="book-stage">
+        <div class="book" id="book">
+
+          <!-- base pages (under the leaves) -->
+          <div class="book-base left"><div class="pg-endpaper"></div></div>
+          <div class="book-base right">
+            <div class="pg-paper pg-end">
+              <span class="pg-num">07</span>
+              <span class="ornament">✦ ✦ ✦</span>
+              <h3>Your Story<br>Awaits</h3>
+              <p>Every piece is a chapter. Explore the full collection and write yours.</p>
+              <button class="btn btn-black" onclick="event.stopPropagation(); goTo('collection')">Explore Full Store</button>
+            </div>
+          </div>
+
+          <!-- LEAF 0 : cover / intro -->
+          <div class="leaf" data-i="0">
+            <div class="face front">
+              <div class="pg-cover">
+                <div class="pg-cover-frame">
+                  <span class="pg-cover-eyebrow">The Curated Edit</span>
+                  <h3 class="pg-cover-title">Best<br>Collection<br>For You</h3>
+                  <div class="pg-cover-div">✦ ✦ ✦</div>
+                  <p class="pg-cover-sub">Six moods, one you. Open the book to begin.</p>
+                  <span class="pg-cover-hint">Tap to open ›</span>
+                </div>
+              </div>
+            </div>
+            <div class="face back">
+              <div class="pg-paper pg-intro">
+                <span class="pg-num">i</span>
+                <span class="ornament">✦</span>
+                <h3>For Every<br>You</h3>
+                <p>From boardrooms to beaches, a collection made to match your every mood.</p>
+                <span class="turn-cue">Turn the page ›</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- LEAF 1 : Office (front) / Daily (back) -->
+          <div class="leaf" data-i="1">
+            <div class="face front">
+              <button class="pg-paper pg-collection" onclick="event.stopPropagation(); goTo('collection')">
+                <span class="pg-num">01</span>
+                <div class="pg-thumb" style="background:linear-gradient(170deg,#E8D5C4,#C4A882);">💼</div>
+                <h4 class="pg-coll-name">Office Wear</h4>
+                <p class="pg-coll-copy">Quiet luxury for the boardroom — subtle studs and sleek chains that mean business.</p>
+                <span class="pg-explore">Explore →</span>
+                <span class="pg-turn-hint">turn ›</span>
+              </button>
+            </div>
+            <div class="face back">
+              <button class="pg-paper pg-collection" onclick="event.stopPropagation(); goTo('collection')">
+                <span class="pg-num">02</span>
+                <div class="pg-thumb" style="background:linear-gradient(170deg,#C8A951,#8B6914);">☀️</div>
+                <h4 class="pg-coll-name">Daily Wear</h4>
+                <p class="pg-coll-copy">Effortless everyday sparkle — light, lasting pieces you'll never want to take off.</p>
+                <span class="pg-explore">Explore →</span>
+                <span class="pg-turn-hint">‹ turn</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- LEAF 2 : Party (front) / Date Night (back) -->
+          <div class="leaf" data-i="2">
+            <div class="face front">
+              <button class="pg-paper pg-collection" onclick="event.stopPropagation(); goTo('collection')">
+                <span class="pg-num">03</span>
+                <div class="pg-thumb" style="background:linear-gradient(170deg,#5C4033,#2D1B10);">🎉</div>
+                <h4 class="pg-coll-name">Party Wear</h4>
+                <p class="pg-coll-copy">Statement pieces that own the room after dark — bold shine for bright nights.</p>
+                <span class="pg-explore">Explore →</span>
+                <span class="pg-turn-hint">turn ›</span>
+              </button>
+            </div>
+            <div class="face back">
+              <button class="pg-paper pg-collection" onclick="event.stopPropagation(); goTo('collection')">
+                <span class="pg-num">04</span>
+                <div class="pg-thumb" style="background:linear-gradient(170deg,#AD1457,#6A0F34);">💞</div>
+                <h4 class="pg-coll-name">Date Night</h4>
+                <p class="pg-coll-copy">Romantic glimmers for unforgettable evenings — a little glow, a lot of charm.</p>
+                <span class="pg-explore">Explore →</span>
+                <span class="pg-turn-hint">‹ turn</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- LEAF 3 : Vacay (front) / Wedding (back) -->
+          <div class="leaf" data-i="3">
+            <div class="face front">
+              <button class="pg-paper pg-collection" onclick="event.stopPropagation(); goTo('collection')">
+                <span class="pg-num">05</span>
+                <div class="pg-thumb" style="background:linear-gradient(170deg,#1565C0,#0D3F7A);">🌴</div>
+                <h4 class="pg-coll-name">Vacay Mode</h4>
+                <p class="pg-coll-copy">Sun-ready shine, light enough for the beach — your holiday sparkle, packed and ready.</p>
+                <span class="pg-explore">Explore →</span>
+                <span class="pg-turn-hint">turn ›</span>
+              </button>
+            </div>
+            <div class="face back">
+              <button class="pg-paper pg-collection" onclick="event.stopPropagation(); goTo('collection')">
+                <span class="pg-num">06</span>
+                <div class="pg-thumb" style="background:linear-gradient(170deg,#6A1B9A,#3E0B5E);">👑</div>
+                <h4 class="pg-coll-name">Wedding Wear</h4>
+                <p class="pg-coll-copy">Heirloom brilliance for your biggest day — timeless pieces made to be remembered.</p>
+                <span class="pg-explore">Explore →</span>
+                <span class="pg-turn-hint">‹ turn</span>
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-    <div class="occ-controls">
-      <button class="occ-btn" onclick="occSlide(-1)">&#8592;</button>
-      <button class="occ-btn" onclick="occSlide(1)">&#8594;</button>
+
+    <div class="book-controls">
+      <button class="book-btn" id="bookPrev" onclick="bookTurn(-1)" aria-label="Previous page">&#8592;</button>
+      <span class="book-progress" id="bookProgress">Tap to open</span>
+      <button class="book-btn" id="bookNext" onclick="bookTurn(1)" aria-label="Next page">&#8594;</button>
     </div>
   </section>
 
@@ -1061,15 +1292,51 @@ if (heroSlides.length > 1) {
   heroAuto = setInterval(() => heroGo(heroIdx + 1), 4500);
 }
 
-// ---- OCCASION SLIDER ----
-let occIdx = 0;
-function occSlide(dir) {
-  const track = document.getElementById('occTrack');
-  const cards = track.querySelectorAll('.occ-card');
-  const cardW = cards[0] ? cards[0].offsetWidth + 18 : 278;
-  const visible = Math.floor(track.parentElement.offsetWidth / cardW);
-  occIdx = Math.max(0, Math.min(occIdx + dir, cards.length - visible));
-  track.style.transform = `translateX(-${occIdx * cardW}px)`;
+// ---- FOR EVERY YOU : FLIP BOOK ----
+const book = document.getElementById('book');
+const bookScene = document.getElementById('bookScene');
+const bookLeaves = book ? [...book.querySelectorAll('.leaf')] : [];
+const LEAVES = bookLeaves.length;          // number of turnable leaves (4)
+let flip = 0;                              // 0 = closed, 1..LEAVES = pages turned
+const spreadLabels = ['Office & Daily', 'Party & Date Night', 'Vacay & Wedding', 'The Finale'];
+
+function bookRender() {
+  const open = flip >= 1;
+  book.classList.toggle('open', open);
+  bookScene.classList.toggle('is-open', open);
+
+  bookLeaves.forEach((leaf, i) => {
+    const flipped = i < flip;
+    leaf.classList.toggle('flipped', flipped);
+    // flipped leaves rest on the LEFT (last-turned on top); unflipped on the RIGHT (cover on top)
+    leaf.style.zIndex = flipped ? 100 + i : 50 - i;
+  });
+
+  const prev = document.getElementById('bookPrev');
+  const next = document.getElementById('bookNext');
+  const prog = document.getElementById('bookProgress');
+  prev.disabled = flip === 0;
+  next.disabled = flip === LEAVES;
+  prog.textContent = flip === 0 ? 'Tap to open' : spreadLabels[flip - 1];
+}
+
+function bookTurn(dir) {
+  const nf = flip + dir;
+  if (nf < 0 || nf > LEAVES) return;
+  flip = nf;
+  bookRender();
+}
+function bookClose() { flip = 0; bookRender(); }
+
+if (book) {
+  // click the book itself: closed → open; open → right side forward / left side back
+  book.addEventListener('click', (e) => {
+    if (e.target.closest('.pg-explore') || e.target.closest('.btn')) return; // let CTAs navigate
+    if (flip === 0) { bookTurn(1); return; }
+    const spineX = book.getBoundingClientRect().left; // book box starts at the spine when open
+    bookTurn(e.clientX < spineX ? -1 : 1);
+  });
+  bookRender();
 }
 
 // ---- TABS ----
